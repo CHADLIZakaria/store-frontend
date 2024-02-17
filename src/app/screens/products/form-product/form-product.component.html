@@ -1,0 +1,67 @@
+<div class="bg-no-repeat bg-cover bg-center relative flex items-center justify-center h-full">
+    <div class="absolute bg-gradient-to-b from-gray-500 to-gray-700 opacity-75 inset-0 z-0"></div>
+    <div class="relative bg-white p-5 border-3 rounded-lg w-6/12">
+        <div class="mb-4">
+            <h3 class="font-semibold text-2xl text-gray-800">Enregistrer-vous</h3>
+            <p class="text-gray-500">Veuillez enregistrer votre compte.</p>
+        </div>
+        <form class="max-w" [formGroup]="productForm">
+            <div class="flex">
+                <div class="flex-1 flex flex-col gap-y-3 p-2">
+                    <div class="flex flex-col gap-y-2">
+                        <label for="title" class="text-sm font-medium text-gray-700 tracking-wide">Produit *</label>
+                        <input formControlName="title" name="title" placeholder="Produit" class="w-full text-base px-4 py-2 border  border-gray-300 rounded-lg focus:outline-none focus:border-gray-600" />
+                    </div>
+
+                    <div class="flex flex-col gap-y-2">
+                        <label for="email" class="text-sm font-medium text-gray-700 tracking-wide">Category *</label>
+                        <select 
+                            formControlName="category"
+                            
+                            id="categories" class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                            <option selected>Choisir une category</option>
+                            <option *ngFor="let category of categories" [value]="category.id">{{ category.name }}</option>
+                        </select>
+                    </div>
+
+                    <div class="flex flex-col gap-y-2">
+                        <label for="prix" class="text-sm font-medium text-gray-700 tracking-wide">Prix *</label>
+                        <input formControlName="price" name="prix" placeholder="Prix" class="w-full text-base px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-gray-600" />
+                    </div>
+    
+                    <div class="flex flex-col gap-y-2">
+                        <label for="description" class="text-sm font-medium text-gray-700 tracking-wide">Description *</label>
+                        <textarea 
+                            rows="4" 
+                            name="description" 
+                            placeholder="Description" 
+                            formControlName="description"
+                            class="w-full text-base px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-gray-600"></textarea>
+                    </div>
+                </div>
+                <div class="flex-1 flex flex-col gap-y-3 p-2">
+                    <div class="flex flex-col gap-y-2">
+                        <label class="mb-1 text-sm font-medium text-gray-700 tracking-wide">Image</label>
+                        <div class="dropzone">
+                            <input type="file" class="cursor-pointer" appDnd (fileDropped)="onFileDropped($event)">
+                            <div *ngIf="!url" class="flex items-center flex-col space-y-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-20 h-20 text-gray-700">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 16.5V9.75m0 0l3 3m-3-3l-3 3M6.75 19.5a4.5 4.5 0 01-1.41-8.775 5.25 5.25 0 0110.233-2.33 3 3 0 013.758 3.848A3.752 3.752 0 0118 19.5H6.75z" />
+                                </svg>
+                                <h3 class="font-bold">Drag and Drop file here</h3>
+                            </div>
+                            <div *ngIf="url" class="w-32 h-32">
+                                <img [src]="url" class="w-full h-full"  />
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="sm:col-span-2 flex justify-end items-center">
+                <button (click)="save()" class="inline-block bg-gray-700 hover:bg-gray-800  active:bg-gray-800  focus-visible:ring ring-indigo-300 text-white text-sm md:text-base font-semibold text-center rounded-lg outline-none transition ease-in duration-500 duration-100 p-3">Enregistrer</button>
+            </div>
+        </form>
+    </div>
+</div>

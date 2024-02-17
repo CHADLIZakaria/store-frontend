@@ -1,0 +1,32 @@
+<div class="bg-no-repeat bg-cover bg-center relative flex items-center justify-center h-full" 
+    style="background-image: url(/assets/login.jpg)">
+    <div class="absolute bg-gradient-to-b from-gray-500 to-gray-400 opacity-75 inset-0 z-0"></div>
+    <div class="sm:flex sm:flex-row mx-0 justify-center">
+      <div class="flex justify-center self-center  z-10">
+        <div class="p-12 bg-white mx-auto rounded-2xl w-100 ">
+            <div class="mb-4">
+              <h3 class="font-semibold text-2xl text-gray-800">Connectez-vous</h3>
+              <p class="text-gray-500">Veuillez vous connecter à votre compte.</p>
+            </div>
+            <div class="space-y-5">
+                <div class="space-y-2">
+                    <label class="text-sm font-medium text-gray-700 tracking-wide">Nom d'utilsateur</label>
+                    <input class="w-full text-base px-4 py-2 border  border-gray-300 rounded-lg focus:outline-none focus:border-gray-600" type="text" placeholder="Nom d'utilisateur">
+                </div>
+                <div class="space-y-2">
+                    <label class="mb-5 text-sm font-medium text-gray-700 tracking-wide">Mot de passe</label>
+                    <input class="w-full content-center text-base px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-gray-600" type="password" placeholder="Mot de passe">
+                </div>
+                <div>
+                    <button (click)="login()" type="button" class="w-full flex justify-center bg-gray-700 hover:bg-gray-800 text-gray-100 p-3  rounded-full tracking-wide font-semibold  shadow-lg cursor-pointer transition ease-in duration-500">
+                        Authentifier
+                    </button>
+                </div>
+            </div>
+            <div class="pt-5 text-center text-gray-400 text-xs flex flex-col items-end gap-y-2">
+                <span>Vous n’avez pas de compte ? <a class="cursor-pointer text-indigo-600 hover:text-indigo-800 font-bold" routerLink="/signup">Enregistrer vous</a></span>
+            </div>
+        </div>
+      </div>
+  </div>
+</div>

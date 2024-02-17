@@ -1,0 +1,65 @@
+<div class="bg-no-repeat bg-cover bg-center relative flex items-center justify-center h-full" 
+    style="background-image: url(/assets/login.jpg)">
+    <div class="absolute bg-gradient-to-b from-gray-500 to-gray-400 opacity-75 inset-0 z-0"></div>
+    <div class="sm:flex sm:flex-row mx-0 justify-center">
+      <div class="flex justify-center self-center  z-10">
+        <div class="p-12 bg-white mx-auto rounded-2xl w-100 ">
+            <div class="mb-4">
+              <h3 class="font-semibold text-2xl text-gray-800">Enregistrer-vous</h3>
+              <p class="text-gray-500">Veuillez enregistrer votre compte.</p>
+            </div>
+            <form class="grid sm:grid-cols-2 gap-4 mx-auto" [formGroup]="userForm">
+                <div class="sm:col-span-2">
+                    <label for="identifiant" class="text-sm font-medium text-gray-700 tracking-wide">Identifiant *</label>
+                    <input formControlName="username" name="identifiant" placeholder="Identifiant" class="w-full text-base px-4 py-2 border  border-gray-300 rounded-lg focus:outline-none focus:border-gray-600" />
+                </div>
+
+                <div class="sm:col-span-2">
+                    <label for="password" class="text-sm font-medium text-gray-700 tracking-wide">Mot de passe *</label>
+                    <input formControlName="password" type="password" name="password" placeholder="Mot de passe" class="w-full text-base px-4 py-2 border  border-gray-300 rounded-lg focus:outline-none focus:border-gray-600" />
+                </div>
+
+                <div>
+                    <label for="lastName" class="text-sm font-medium text-gray-700 tracking-wide">Nom</label>
+                    <input formControlName="lastName" name="lastName" placeholder="Nom" class="w-full text-base px-4 py-2 border  border-gray-300 rounded-lg focus:outline-none focus:border-gray-600" />
+                </div>
+
+                <div>
+                    <label for="firstName" class="text-sm font-medium text-gray-700 tracking-wide">Prénom</label>
+                    <input formControlName="firstName" name="firstName" placeholder="Prénom" class="w-full text-base px-4 py-2 border  border-gray-300 rounded-lg focus:outline-none focus:border-gray-600" />
+                </div>
+        
+                <div class="sm:col-span-2">
+                    <label for="email" class="text-sm font-medium text-gray-700 tracking-wide">Email</label>
+                    <input formControlName="email" name="email" placeholder="Email" class="w-full text-base px-4 py-2 border  border-gray-300 rounded-lg focus:outline-none focus:border-gray-600" />
+                </div>
+        
+                <div class="sm:col-span-2">
+                    <label for="subject" class="text-sm font-medium text-gray-700 tracking-wide">Date de naissance</label>
+                    <div class="flex gap-5">
+                        <select class="w-full text-base px-4 py-2 border  border-gray-300 rounded-lg focus:outline-none focus:border-gray-600">
+                            <option>Jours</option>
+                            <option *ngFor="let day of days">{{ day + 1 }}</option>
+                        </select>
+                        <select class="w-full text-base px-4 py-2 border  border-gray-300 rounded-lg focus:outline-none focus:border-gray-600">
+                            <option>Mois</option>
+                            <option *ngFor="let month of months">{{ month + 1 }}</option>
+                        </select>
+                        <select class="w-full text-base px-4 py-2 border  border-gray-300 rounded-lg focus:outline-none focus:border-gray-600">
+                            <option>Année</option>
+                            <option *ngFor="let year of years">{{ year }}</option>
+                        </select>
+                    </div>
+                </div>
+    
+                <div (click)="save()" class="sm:col-span-2 flex justify-end items-center">
+                    <button class="inline-block bg-gray-700 hover:bg-gray-800  active:bg-gray-800  focus-visible:ring ring-indigo-300 text-white text-sm md:text-base font-semibold text-center rounded-lg outline-none transition ease-in duration-500 duration-100 p-3">Enregistrer</button>
+                </div>
+            </form>
+            <div class="pt-5 text-center text-gray-400 text-xs flex flex-col items-end gap-y-2">
+                <span>Vous avez un compte ? <a class="cursor-pointer text-indigo-600 hover:text-indigo-800 font-bold" routerLink="/signin">Connecter vous</a></span>               
+            </div>
+        </div>
+      </div>
+  </div>
+</div>
