@@ -42,12 +42,7 @@ export class FormProductComponent implements OnInit {
   }
 
   save() {
-    console.log()
-    this.categories.forEach(element => console.log(element))
     const category = this.categories.filter(category => this.productForm.value.category === category.id.toString())[0]
-    console.log(this.productForm.value)
-    console.log(category)
-
     this.productService.save(this.productForm.value, category).subscribe({
       next: (data) => {
         this.router.navigate(['/products'])

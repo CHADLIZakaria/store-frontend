@@ -2,27 +2,67 @@
     style="background-image: url(/assets/login.jpg)">
     <div class="absolute bg-gradient-to-b from-gray-500 to-gray-400 opacity-75 inset-0 z-0"></div>
     <div class="sm:flex sm:flex-row mx-0 justify-center">
-      <div class="flex justify-center self-center  z-10">
+      <div class="flex justify-center self-center z-10">
         <div class="p-12 bg-white mx-auto rounded-2xl w-100 ">
             <div class="mb-4">
               <h3 class="font-semibold text-2xl text-gray-800">Connectez-vous</h3>
               <p class="text-gray-500">Veuillez vous connecter à votre compte.</p>
             </div>
-            <div class="space-y-5">
-                <div class="space-y-2">
-                    <label class="text-sm font-medium text-gray-700 tracking-wide">Nom d'utilsateur</label>
-                    <input class="w-full text-base px-4 py-2 border  border-gray-300 rounded-lg focus:outline-none focus:border-gray-600" type="text" placeholder="Nom d'utilisateur">
+            <form [formGroup]="userForm" class="space-y-5">
+                <div    
+                    *ngIf="messageError"
+                    class=" bg-red-200 mb-3 inline-flex w-full items-center rounded-lg bg-danger-100 px-6 py-5 text-base text-danger-700"
+                    role="alert">
+                    <span class="mr-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" />
+                        </svg>                          
+                    </span>
+                    {{messageError}}
                 </div>
                 <div class="space-y-2">
-                    <label class="mb-5 text-sm font-medium text-gray-700 tracking-wide">Mot de passe</label>
-                    <input class="w-full content-center text-base px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-gray-600" type="password" placeholder="Mot de passe">
+                    <label class="text-md font-medium text-gray-700 tracking-wide flex items-center gap-1 ">
+                        Nom d'utilisateur 
+                        <span class="text-red-600">*</span>
+                    </label>
+                    <div>
+                        <input 
+                            [ngClass]="isRequiredError('username') ? 'border-red-600 focus:border-red-600':'border-gray-300 focus:border-gray-600'"
+                            formControlName="username" 
+                            class="shadow shadow-inner w-full text-base px-4 py-2 border rounded-lg focus:outline-none" 
+                            type="text" 
+                            placeholder="Nom d'utilisateur">
+                    </div>
+                    <span *ngIf="isRequiredError('username')" class="text-red-600 text-sm">Nom d'utilisateur est nécessaire</span>
+                </div>
+                <div class="space-y-2">
+                    <label class="text-md font-medium text-gray-700 tracking-wide flex items-center gap-1">
+                        Mot de passe 
+                        <span class="text-red-600">*</span>
+                    </label>
+                    <div class="relative">
+                        <input 
+                            [ngClass]="isRequiredError('password') ? 'border-red-600 focus:border-red-600':'border-gray-300 focus:border-gray-600'"
+                            formControlName="password" 
+                            class="shadow shadow-inner w-full text-base px-4 py-2 border rounded-lg focus:outline-none" 
+                            [type]="isPassword ? 'password':'text'" 
+                            placeholder="Mot de passe">
+                        <svg *ngIf="isPassword" (click)="toggleType()" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" class="w-6 h-6 absolute top-1/2 right-0 transform -translate-x-1/2 -translate-y-1/2 cursor-pointer">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                        </svg>
+                        <svg *ngIf="!isPassword" (click)="toggleType()" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" class="w-6 h-6 absolute top-1/2 right-0 transform -translate-x-1/2 -translate-y-1/2 cursor-pointer">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M3.98 8.223A10.477 10.477 0 0 0 1.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.451 10.451 0 0 1 12 4.5c4.756 0 8.773 3.162 10.065 7.498a10.522 10.522 0 0 1-4.293 5.774M6.228 6.228 3 3m3.228 3.228 3.65 3.65m7.894 7.894L21 21m-3.228-3.228-3.65-3.65m0 0a3 3 0 1 0-4.243-4.243m4.242 4.242L9.88 9.88" />
+                        </svg>
+                    </div>    
+                    <span  *ngIf="isRequiredError('password')" class="text-red-600 text-sm">Mot de passe est nécessaire</span>                  
                 </div>
                 <div>
-                    <button (click)="login()" type="button" class="w-full flex justify-center bg-gray-700 hover:bg-gray-800 text-gray-100 p-3  rounded-full tracking-wide font-semibold  shadow-lg cursor-pointer transition ease-in duration-500">
+                    <button [disabled]="!userForm.valid" (click)="login()" type="button" class="w-full flex justify-center bg-gray-700 hover:bg-gray-800 text-gray-100 p-3  rounded-full tracking-wide font-semibold  shadow-lg transition ease-in duration-500">
                         Authentifier
                     </button>
                 </div>
-            </div>
+            </form>
             <div class="pt-5 text-center text-gray-400 text-xs flex flex-col items-end gap-y-2">
                 <span>Vous n’avez pas de compte ? <a class="cursor-pointer text-indigo-600 hover:text-indigo-800 font-bold" routerLink="/signup">Enregistrer vous</a></span>
             </div>
