@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, Subject, tap } from 'rxjs';
 import { environment } from '../environments/environment';
@@ -35,7 +35,7 @@ export class ProductsService {
     return this.http.get<product[]>(environment.apiUrl+'products?idsCategory='+ids)
   }
 
-  search(search: searchProduct): Observable<paginationResponse> {
+  search1(search: searchProduct): Observable<paginationResponse> {
     return this.http.get<paginationResponse>(environment.apiUrl+`products/search?page=${search.currentPage}&size=${search.sizePages}&idsCategory=${search.idsCategory}&keyword=${search.keyword}`).pipe(
       tap(
         data => {
@@ -56,6 +56,36 @@ export class ProductsService {
 
   findById(id: number): Observable<product> {
     return this.http.get<product>(environment.apiUrl+'product/'+id)
+  }
+
+  search(filters: any): Observable<paginationResponse> {
+    let params = new HttpParams()
+    if(filters.size) {
+      params = params.set("size", filters.size)
+    }
+    if(filters.page) {
+      params = params.set("page", filters.page)
+    }
+    if(filters.keyword) {
+      params = params.set("keyword", filters.keyword)
+    }
+    if(filters.categories) {
+      params = params.set("categories", filters.categories)
+    }
+    if(filters.prices) {
+      const [minPrice, maxPrice] = filters.prices.split('-')
+      params = params.set("minPrice", minPrice)
+      if(maxPrice) {
+        params = params.set("maxPrice", maxPrice)
+      }
+    }
+    if(filters.sort) {
+      params = params.set("sort", filters.sort)
+    }
+    if(filters.direction) {
+      params = params.set("direction", filters.direction)
+    }
+    return this.http.get<paginationResponse>(environment.apiUrl+'products/search', {params})
   }
 
 }

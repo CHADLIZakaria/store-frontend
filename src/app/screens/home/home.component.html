@@ -129,13 +129,13 @@
                     type="radio"
                     (checked)="changeFiltre({type: $event.filter , key: $event.key, value: $event.value})"
                     [items]="{title: 'Prices', content: ['0$ - $25', '25$ - $50', '50$ - $75', '75$ - $100', '+$100'], values: ['0-25', '25-50', '50-75', '75-100','100-'] }"></app-accordion>
-
             </div>
             <div class="grid-cols-3 grid gap-1 mb-6 w-full">
                 <div 
                     *ngFor="let product of products"
+                    [routerLink]="['/product', product.id]"
                     class="bg-[#f5f6f6]">
-                    <img class="h-[300px] w-full" src="assets/category1.png" />
+                    <img class="h-[300px] w-full" src={{product.imagePath}} />
                     <div class="flex justify-between px-2 py-2  border-solid border-0 border-t items-center border-gray-200 ">
                         <h4>{{product.title}}</h4>
                         <span class="w-[80px] text-right">{{product.price}} $</span>

@@ -25,7 +25,7 @@ export class HomeComponent implements OnInit {
     direction: ""
   }
 
-  constructor(private categoryService: CategoryService, private productsService: ProductsService, private homeService: HomeService) {
+  constructor(private categoryService: CategoryService, private productsService: ProductsService) {
   }
 
   previousCarousel() {   
@@ -50,7 +50,7 @@ export class HomeComponent implements OnInit {
   }
 
   findProducts() {
-    this.homeService.findAll(this.filters).subscribe(
+    this.productsService.search(this.filters).subscribe(
       data => {
         this.products = data.data
       }

@@ -1,11 +1,15 @@
+import { trigger } from '@angular/animations';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
+import { product } from 'src/app/models/product.model';
 import { UserLogin } from 'src/app/models/userLogin.model';
 import { AuthService } from 'src/app/services/auth.service';
+import { ProductsService } from 'src/app/services/products.service';
 
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.css']
+  styleUrls: ['./navbar.component.css'],
 })
 export class NavbarComponent implements OnInit {
   @Output() toggleSidebar =  new EventEmitter<boolean>();
@@ -17,20 +21,39 @@ export class NavbarComponent implements OnInit {
     "isAdmin": true,
     "expires_in": 86399983,
     "username": "atuny0"
-};
+  };
+  searchProducts: product[]= [];
+  searchControl!: FormControl;
 
-  constructor(private authService: AuthService) {
+
+  constructor(private authService: AuthService, private productService: ProductsService) {
+    this.searchControl = new FormControl('')    
+  }
+
+  findProducts() {
+    this.productService.search({size: 1000, keyword: this.searchControl.value}).subscribe(data => {
+      this.searchProducts = data.data;
+    })
 
   }
 
 
   ngOnInit(): void {
     this.authService.userAuth.subscribe(data => {
-      if(data !=null) {
+      if(data != null) {
         this.isLogin = true
         this.userLogin = data
       }
     })
+   
+    this.searchControl.valueChanges.subscribe(value => {
+      this.onSearch(value);
+    });
+  }
+
+  onSearch(value: string) {
+    console.log(value)
+    this.findProducts()
   }
   
 
