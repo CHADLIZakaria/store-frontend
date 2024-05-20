@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { product } from 'src/app/models/product.model';
@@ -16,6 +17,7 @@ export class ProductDetailsComponent implements OnInit {
   product: product | undefined;
   routeSub: Subscription | undefined;
   reviews: review[] = [];
+  reviewForm!: FormGroup;
 
   constructor(private route: ActivatedRoute, private productService: ProductsService, private reviewService: ReviewService) {
   }
@@ -26,6 +28,10 @@ export class ProductDetailsComponent implements OnInit {
       this.loadProductDetail(id)
       this.loadReviews(id)
     });
+    this.reviewForm = new FormGroup({
+      rate: new FormControl(1),
+      review: new FormControl(null)
+    })
    
   }
 
@@ -56,6 +62,10 @@ export class ProductDetailsComponent implements OnInit {
 
   countNumberRate(rate: number) {
     return this.reviews.filter(review => review.rating == rate).length
+  }
+
+  chooseRateStar(rate: number) {
+    this.reviewForm.controls['rate'].setValue(rate)
   }
 
 

@@ -46,7 +46,6 @@ export class FormProductComponent implements OnInit {
     this.productService.save(this.productForm.value, category).subscribe({
       next: (data) => {
         this.router.navigate(['/products'])
-        console.log(data)
       }
     })
   }

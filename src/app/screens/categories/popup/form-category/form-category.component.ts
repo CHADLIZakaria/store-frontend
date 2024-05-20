@@ -35,7 +35,6 @@ export class FormCategoryComponent implements OnInit {
   }
 
   save() {
-    console.log(this.categoryForm.value)
     this.categoryService.save(this.categoryForm.value).subscribe({
       next: (data) => {
         this.close()

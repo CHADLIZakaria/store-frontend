@@ -9,15 +9,17 @@ import { ProductsComponent } from './screens/products/products.component';
 import { SigninComponent } from './screens/signin/signin.component';
 import { SignupComponent } from './screens/signup/signup.component';
 import { UsersComponent } from './screens/users/users.component';
+import { ReviewsComponent } from './screens/reviews/reviews.component';
 
 const routes: Routes = [
   {component: HomeComponent, path: ''},
-  {component: SigninComponent, path: 'signin'},
+  {component: SigninComponent, path: 'login'},
   {component: SignupComponent, path: 'signup'},
   {component: ProductDetailsComponent, path: 'product/:id'},
   {component: CategoriesComponent, path: 'categories'},
   {component: ProductsComponent, path: 'products'},
   {component: UsersComponent, path: 'users'},
+  {component: ReviewsComponent, path: 'reviews'},
   {component: FormProductComponent, path: 'products/save'},
   {component: DashboardComponent, path: 'dashboard'}
 ];

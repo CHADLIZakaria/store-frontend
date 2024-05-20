@@ -12,14 +12,12 @@ export class DndDirective {
   @HostListener('dragover', ['$event']) onDragOver(evt: any) {
     evt.preventDefault()
     evt.stopPropagation()
-    console.log('drag over')
     this.fileover = true
   }
 
   @HostListener('dragleave', ['$event']) ondragleave(evt: any) {
     evt.preventDefault()
     evt.stopPropagation()
-    console.log('drag leave')
   }
 
   @HostListener('drop', ['$event']) onDrop(evt: any) {
@@ -29,7 +27,6 @@ export class DndDirective {
     const files = evt.dataTransfer.files
     if(files.length > 0) {
       this.fileDropped.emit(files[0])
-      console.log('you dropped '+files.length+' files')
     }
 
   }

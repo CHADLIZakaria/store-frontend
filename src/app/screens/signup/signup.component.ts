@@ -32,14 +32,11 @@ export class SignupComponent implements OnInit {
   save() {
     this.userService.save(this.userForm.value).subscribe({
       next: data=> {
-        console.log(data)
         this.router.navigate(['/login'])
       },
       error : err => {
-        console.log(err)
       }
     })
-    console.log(this.userForm.value)
   }
 
 

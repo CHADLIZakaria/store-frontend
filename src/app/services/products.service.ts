@@ -5,7 +5,7 @@ import { environment } from '../environments/environment';
 import { category } from '../models/category.model';
 import { paginationResponse } from '../models/pagination-response.model';
 import { product } from '../models/product.model';
-import { search } from '../models/search.model';
+import { searchProduct } from '../models/search.model';
 
 @Injectable({
   providedIn: 'root'
@@ -35,7 +35,7 @@ export class ProductsService {
     return this.http.get<product[]>(environment.apiUrl+'products?idsCategory='+ids)
   }
 
-  search(search: search): Observable<paginationResponse> {
+  search(search: searchProduct): Observable<paginationResponse> {
     return this.http.get<paginationResponse>(environment.apiUrl+`products/search?page=${search.currentPage}&size=${search.sizePages}&idsCategory=${search.idsCategory}&keyword=${search.keyword}`).pipe(
       tap(
         data => {

@@ -1,7 +1,11 @@
-<app-navbar (toggleSidebar)="toggleSidebar($event)"></app-navbar>
-<div class="flex" style="margin-top: 100px; height: calc(100vh - 100px);">
-    <app-sidebar [toggleSidebar]="isShow"></app-sidebar>
-    <div class="w-full">
-        <router-outlet></router-outlet>
+<div>
+    <app-navbar (toggleSidebar)="toggleSidebar($event)"></app-navbar>
+    <div class="flex mt-[72px]">
+        <app-sidebar [toggleSidebar]="isShow"></app-sidebar>
+        <div
+            [ngClass]="{'ml-[172px]': isShow}" 
+            class="w-full">
+            <router-outlet></router-outlet>
+        </div>
     </div>
 </div>

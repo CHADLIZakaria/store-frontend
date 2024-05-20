@@ -28,7 +28,6 @@ export class SigninComponent implements OnInit {
     const _this = this;
     this.authService.login(this.userForm.value).subscribe({
       next(data) {
-        console.log(data);
       },
       error(err) {
         _this.messageError = err.error.message;

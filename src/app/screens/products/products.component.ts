@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { category } from 'src/app/models/category.model';
 import { paginationResponse } from 'src/app/models/pagination-response.model';
-import { product } from 'src/app/models/product.model';
-import { search } from 'src/app/models/search.model';
+import { searchProduct } from 'src/app/models/search.model';
 import { CategoryService } from 'src/app/services/category.service';
 import { ProductsService } from 'src/app/services/products.service';
 
@@ -17,7 +16,7 @@ export class ProductsComponent implements OnInit {
   showPopupDeleteProduct: boolean=false;
   categories!: category[];
   categoriesSelected: category[]= []
-  search: search = {
+  search: searchProduct = {
     sizePages: 3,
     currentPage: 0,
     keyword: "",
@@ -97,7 +96,6 @@ export class ProductsComponent implements OnInit {
   onChangeKeyword($event: any) {
     this.search.keyword = $event.target.value
     this.search.currentPage = 0
-    console.log("change")
     this.getProducts()
   }
   

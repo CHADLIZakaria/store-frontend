@@ -3,6 +3,8 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../environments/environment';
 import { user } from '../models/user.model';
+import { paginationResponse } from '../models/pagination-response.model';
+import { searchUser } from '../models/search.model';
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +22,14 @@ export class UserService {
     formData.append('email', user.email)
     formData.append('sex', user.sex)
     formData.append('phoneNumber', user.phoneNumber)
-    console.log(user)
     return this.http.post<user>(environment.apiUrl+'user', formData)
+  }
+
+  findll() {
+    return this.http.get<user[]>(`${environment.apiUrl}users`)
+  }
+  
+  search(filter: searchUser) {
+    return this.http.get<paginationResponse>(`${environment.apiUrl}users/test/search?keyword=${filter.keyword}&page=${filter.currentPage}&size=${filter.sizePages}`)
   }
 }

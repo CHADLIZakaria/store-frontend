@@ -21,6 +21,12 @@ import { FormProductComponent } from './screens/products/form-product/form-produ
 import { DeleteProductComponent } from './screens/products/popup/delete-product/delete-product.component';
 import { DropDownDirective } from './directives/drop-down.directive';
 import { UsersComponent } from './screens/users/users.component';
+import { ReviewsComponent } from './screens/reviews/reviews.component';
+import { AccordionComponent } from './components/accordion/accordion.component';
+
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { CategoryNamePipe } from './pipes/category-name.pipe';
+
 
 @NgModule({
   declarations: [
@@ -40,13 +46,17 @@ import { UsersComponent } from './screens/users/users.component';
     FormProductComponent,
     DeleteProductComponent,
     DropDownDirective,
-    UsersComponent
+    UsersComponent,
+    ReviewsComponent,
+    AccordionComponent,
+    CategoryNamePipe
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

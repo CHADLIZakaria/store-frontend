@@ -1,8 +1,7 @@
-<!-- This is an example component -->
+<!--
 <div class="max-w-screen-2xl px-4 md:px-8 mx-auto">
     <h2 class="text-gray-800 text-2xl lg:text-3xl font-bold text-center mb-8 md:mb-12">Categories</h2>
 	<div id="default-carousel" class="relative bg-white-500" data-carousel="static">
-        <!-- Carousel wrapper -->
         <div class="overflow-hidden relative h-56 rounded-lg sm:h-64 xl:h-80 2xl:h-96 flex gap-1">
             <button 
                 [ngClass]="{'border-indigo-500' : categoriesSelected.includes(category)}"
@@ -21,7 +20,6 @@
             </button>
             
         </div>
-        <!-- Slider controls -->
         <button 
             (click)="previousCarousel()"
             type="button" 
@@ -43,14 +41,11 @@
 
 	
 </div>
-<!-- product-grid - start -->
 <div class="bg-white py-2 sm:py-4 lg:py-6" *ngIf="products">
     <div class="max-w-screen-2xl px-4 md:px-8 mx-auto">
-        <!-- text - start -->
         <div class="mb-4 md:mb-8">
             <h2 class="text-gray-800 text-2xl lg:text-3xl font-bold text-center mb-2 md:mb-4">Produits</h2>
         </div>
-        <!-- text - end -->
         <div class="flex justify-between">
             <div class="flex">
                 <span *ngFor="let category of categoriesSelected" class="ml-4 text-sm inline-flex items-center font-bold leading-sm uppercase px-3 py-1 bg-green-200 text-green-700 rounded-full">{{category.name}}</span>
@@ -59,7 +54,6 @@
         </div>
 
         <div class="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-4 md:gap-x-6 gap-y-8">
-            <!-- product - start -->
             <a  [routerLink]="['/product', product.id]" *ngFor="let product of products" class="py-2 m-2 rounded-xl bg-white shadow-lg hover:shadow-xl">
                 <div href="#" class="group h-96 block bg-gray-100 rounded-t-lg overflow-hidden shadow-lg relative">
                     <img [src]="product.imagePath" loading="lazy" alt="Photo by Austin Wade" class="w-full h-full object-fill object-center" />           
@@ -69,8 +63,85 @@
                     <p href="#" class="text-gray-800 text-bold">{{product.price}} DH</p>
                 </div>
             </a>
-            <!-- product - end -->
         </div>
     </div>
 </div>
-<!-- product-grid - end -->
+-->
+<div class="container mx-auto" *ngIf="categories && products">
+    <h4 class="mb-2 font-lg">Choose your category</h4>
+    <div class="flex gap-5 mb-5">
+        <svg 
+            [ngClass]="{'text-gray-400 cursor-auto': this.currentIndexCategory === 0}"
+            (click)="previousCarousel()" 
+            class="cursor-pointer" 
+            xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" viewBox="0 0 20 20"><path fill="currentColor" d="m5.83 9l5.58-5.58L10 2l-8 8l8 8l1.41-1.41L5.83 11H18V9z"/></svg>
+        <svg 
+            [ngClass]="{'text-gray-400 cursor-auto': this.currentIndexCategory >= this.categories.length - 4}"
+            (click)="nextCarousel()" 
+            class="cursor-pointer" 
+            xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" d="M2 12h20m-9-9l9 9l-9 9"/></svg>
+    </div>
+    <div class="flex flex-row overflow-hidden gap-x-1 mb-5">
+        <div 
+            *ngFor="let category of categories; index as i"       
+            [ngStyle]="{transform: getTranslation()}"
+          class="grow-0 w-1/4 shrink-0 transition ease-in-out duration-500"
+            >
+            <img class="h-[300px] w-full" src={{category.imagePath}} />
+            <h6 class="capitalize py-1">{{category.name}}</h6>
+        </div>
+    </div>
+    <div>
+        <div class="flex items-center justify-between py-3">
+            <p>1-40 of 155 items</p>
+            <div class="flex items-center gap-x-1">
+                Sort by:
+                <select class="border border-black rounded" (change)="onSortChange($event)">
+                    <option value="0">Newest</option>
+                    <option value="1">Price: Low to High</option>
+                    <option value="2">Price: High to Low</option>
+                </select>
+            </div>
+        </div>
+        <hr/>
+        <div class="flex mt-3 gap-x-10">
+            <div>
+                <div class="relative mb-2">
+                    <input 
+                        (keydown)="onChangeKeyword($event)"
+                        id="keyword" 
+                        name="keyword" 
+                        type="text" 
+                        placeholder="Enter a keyword" 
+                        class="border border-black rounded-md px-2 shadow py-1" />
+                     <span class="absolute right-0 top-1/2 transform -translate-y-1/2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 24 24"><path fill="currentColor" d="m19.6 21l-6.3-6.3q-.75.6-1.725.95T9.5 16q-2.725 0-4.612-1.888T3 9.5t1.888-4.612T9.5 3t4.613 1.888T16 9.5q0 1.1-.35 2.075T14.7 13.3l6.3 6.3zM9.5 14q1.875 0 3.188-1.312T14 9.5t-1.312-3.187T9.5 5T6.313 6.313T5 9.5t1.313 3.188T9.5 14"/></svg>
+                    </span>
+                </div>            
+                <app-accordion 
+                    filter="category"
+                    type="checkbox"
+                    (checked)="changeFiltre({type: $event.filter , key: $event.key, value: $event.value})"
+                    [items]="{title: 'Categories', content: categories | categoryName:'name', values: categories | categoryName:'id' }">
+                </app-accordion>
+                <app-accordion 
+                    filter="price"
+                    type="radio"
+                    (checked)="changeFiltre({type: $event.filter , key: $event.key, value: $event.value})"
+                    [items]="{title: 'Prices', content: ['0$ - $25', '25$ - $50', '50$ - $75', '75$ - $100', '+$100'], values: ['0-25', '25-50', '50-75', '75-100','100-'] }"></app-accordion>
+
+            </div>
+            <div class="grid-cols-3 grid gap-1 mb-6 w-full">
+                <div 
+                    *ngFor="let product of products"
+                    class="bg-[#f5f6f6]">
+                    <img class="h-[300px] w-full" src="assets/category1.png" />
+                    <div class="flex justify-between px-2 py-2  border-solid border-0 border-t items-center border-gray-200 ">
+                        <h4>{{product.title}}</h4>
+                        <span class="w-[80px] text-right">{{product.price}} $</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

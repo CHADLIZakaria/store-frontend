@@ -27,7 +27,6 @@ export class CategoriesComponent implements OnInit {
     this.categoryService.findAll().subscribe({
       next:(data) => {
         this.categories = data
-        console.log(data)
       }
     })
 

@@ -12,7 +12,6 @@ export class AppComponent {
 
   toggleSidebar($event: boolean) {
     this.isShow = $event
-    console.log($event)
   }
 
 }

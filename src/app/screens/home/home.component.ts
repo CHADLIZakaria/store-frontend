@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { category } from 'src/app/models/category.model';
 import { product } from 'src/app/models/product.model';
 import { CategoryService } from 'src/app/services/category.service';
+import { HomeService } from 'src/app/services/home.service';
 import { ProductsService } from 'src/app/services/products.service';
 
 @Component({
@@ -15,33 +16,27 @@ export class HomeComponent implements OnInit {
   products!: product[];
   categoriesSelected: category[] = [];
   currentIndexCategory: number=0;
-  
-  constructor(private categoryService: CategoryService, private productsService: ProductsService) {
-
+  filters = {
+    keyword: "",
+    categories: "",
+    prices: "",
+    size: 40,
+    sort: "",
+    direction: ""
   }
 
-  previousCarousel() {
-    let currentValue = this.currentIndexCategory
-    let intervalId = setInterval(() => {  
-      if(currentValue-1 < this.currentIndexCategory) {
-        this.currentIndexCategory -= 1;
-      }
-      else {
-        clearInterval(intervalId)
-      }
-    }, 500);
+  constructor(private categoryService: CategoryService, private productsService: ProductsService, private homeService: HomeService) {
+  }
+
+  previousCarousel() {   
+    if(this.currentIndexCategory != 0) {
+      this.currentIndexCategory -= 1;
+    }
   }
   nextCarousel() {
-      let currentValue = this.currentIndexCategory
-      let intervalId = setInterval(() => {  
-        if(currentValue + 1 > this.currentIndexCategory ) {
-          this.currentIndexCategory += 1;
-        }
-        else {
-          clearInterval(intervalId)
-        }
-    }, 500);
-    
+    if(this.currentIndexCategory < this.categories.length - 4) {
+      this.currentIndexCategory += 1;
+    }
   }
 
   ngOnInit(): void {
@@ -50,22 +45,29 @@ export class HomeComponent implements OnInit {
         this.categories = data
       }
     )
-    this.findAll()
+    this.findProducts()
     
   }
 
-  findAll() {
-    let ids=""
-    this.categoriesSelected.forEach(category => {
-      ids += category.id+","
-    })
-    
-    this.productsService.findAll(ids).subscribe(
+  findProducts() {
+    this.homeService.findAll(this.filters).subscribe(
       data => {
-        this.products = data
+        this.products = data.data
       }
     )
+  }
 
+  onChangeKeyword(event: Event) {
+    this.filters.keyword = (event.target as HTMLInputElement).value
+    this.findProducts()
+  }
+  onSortChange(event: Event) {
+    switch((event.target as HTMLInputElement).value) {
+      case "0": this.filters.sort="id"; this.filters.direction="asc"; break;
+      case "1": this.filters.sort="price";  this.filters.direction="asc"; break;
+      case "2": this.filters.sort="price";  this.filters.direction="desc"; break;    
+    }
+    this.findProducts()
   }
 
   toggleCategorySelected(category: category) {
@@ -75,8 +77,31 @@ export class HomeComponent implements OnInit {
     else {
       this.categoriesSelected.push(category)  
     }
-    this.findAll()
+    this.findProducts()
+  }
 
+  getTranslation() {
+    return  'translateX(' + (-100 * this.currentIndexCategory) + '%)';
+  }
+
+  changeFiltre(value: {type: string, key: string, value: boolean}) {
+    if(value.type==='category') {
+      if(value.value) {
+        this.filters.categories = this.filters.categories ? this.filters.categories.split(',').concat(value.key).join(','):value.key
+      }
+      else {
+        this.filters.categories = this.filters.categories.split(',').filter(key => key !== value.key).join(',')  
+      }
+    }
+    if(value.type==='price') {     
+      if(value.value) {
+        this.filters.prices = value.key
+      }
+      else {
+        this.filters.prices = ""  
+      }
+    }
+    this.findProducts()
   }
 
 }
