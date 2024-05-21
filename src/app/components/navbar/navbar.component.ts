@@ -34,7 +34,6 @@ export class NavbarComponent implements OnInit {
     this.productService.search({size: 1000, keyword: this.searchControl.value}).subscribe(data => {
       this.searchProducts = data.data;
     })
-
   }
 
 
@@ -47,15 +46,14 @@ export class NavbarComponent implements OnInit {
     })
    
     this.searchControl.valueChanges.subscribe(value => {
-      this.onSearch(value);
+      if(value==='') {
+        this.searchProducts=[]
+      }
+      else {
+        this.findProducts();
+      }
     });
   }
-
-  onSearch(value: string) {
-    console.log(value)
-    this.findProducts()
-  }
-  
 
   onToggle() {
     this.isShow = ! this.isShow

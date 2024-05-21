@@ -26,6 +26,7 @@ import { AccordionComponent } from './components/accordion/accordion.component';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CategoryNamePipe } from './pipes/category-name.pipe';
+import { DropDown1Directive } from './directives/drop-down1.directive';
 
 
 @NgModule({
@@ -49,7 +50,8 @@ import { CategoryNamePipe } from './pipes/category-name.pipe';
     UsersComponent,
     ReviewsComponent,
     AccordionComponent,
-    CategoryNamePipe
+    CategoryNamePipe,
+    DropDown1Directive
   ],
   imports: [
     BrowserModule,

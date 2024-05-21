@@ -53,6 +53,7 @@ export class ProductDetailsComponent implements OnInit {
 
 
   getRateReviews(): number {
+    if(this.reviews.length==0) return 0;
     let res = 0;
     this.reviews?.forEach(review => {
         res += review.rating

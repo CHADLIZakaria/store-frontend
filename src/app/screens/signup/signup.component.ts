@@ -12,6 +12,9 @@ export class SignupComponent implements OnInit {
   days = [...Array(31).keys()]
   months = [...Array(12).keys()]
   years = Array(2022 - 1970 + 1).fill(1970).map((year, index) => year + index).reverse()
+  currentDay: number = new Date().getDate();
+  currentMonth: number = new Date().getMonth()
+  currentYear: number=new Date().getFullYear()
 
   userForm!: FormGroup;
 
