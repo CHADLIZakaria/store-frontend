@@ -9,8 +9,11 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   isShow: boolean = false;
+
   toggleSidebar($event: boolean) {
     this.isShow = $event
   }
-
+  close() {
+    this.isShow=false
+  }
 }

@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { EventEmitter, Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, Subject, tap } from 'rxjs';
 import { environment } from '../environments/environment';
-import { category } from '../models/category.model';
+import { CategoryCount, category } from '../models/category.model';
 
 @Injectable({
   providedIn: 'root'
@@ -42,6 +42,10 @@ export class CategoryService {
         this.categoriesChanged.next(this.categories)
       })
     )
+  }
+
+  productCountByCategory(): Observable<CategoryCount[]> {
+    return this.http.get<CategoryCount[]>(environment.apiUrl+'category/product/count')
   }
 
   delete(id: number): Observable<any> {

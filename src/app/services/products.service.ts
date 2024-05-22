@@ -2,7 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, Subject, tap } from 'rxjs';
 import { environment } from '../environments/environment';
-import { category } from '../models/category.model';
+import { RangePriceCount, category } from '../models/category.model';
 import { paginationResponse } from '../models/pagination-response.model';
 import { product } from '../models/product.model';
 import { searchProduct } from '../models/search.model';
@@ -87,5 +87,11 @@ export class ProductsService {
     }
     return this.http.get<paginationResponse>(environment.apiUrl+'products/search', {params})
   }
+
+  productCountByRangePrice(): Observable<RangePriceCount[]> {
+    return this.http.get<RangePriceCount[]>(environment.apiUrl+'products/prices/count')
+  }
+
+
 
 }

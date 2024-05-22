@@ -22,12 +22,12 @@ import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges } from '@
   ]
 })
 export class AccordionComponent implements OnInit {
-  @Input("items") items: { title: string; content: string[]; values: string[]}={title: '', content: [], values: [] };
+  @Input("items") items: { title: string; content: string[]; values: string[], count: string[]}={title: '', content: [], values: [], count: [] };
   @Input("type") type!: string;
   @Input("filter") filter!: string;
   @Output("checked") checkedEvent = new EventEmitter<{filter: string, key: string, value: boolean}>();
   
-  isOpen: boolean = false;
+  isOpen: boolean = true;
   diplayContent:  string[] = []
   isShowAll = false;
   

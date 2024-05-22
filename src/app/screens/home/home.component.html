@@ -23,21 +23,17 @@
         </div>
     </div>
     <div>
-        <div class="flex items-center justify-between py-3">
-            <p>1-40 of 155 items</p>
-            <div class="flex items-center gap-x-1">
-                Sort by:
-                <select class="border border-black rounded" (change)="onSortChange($event)">
-                    <option value="0">Newest</option>
-                    <option value="1">Price: Low to High</option>
-                    <option value="2">Price: High to Low</option>
-                </select>
-            </div>
-        </div>
-        <hr/>
         <div class="flex mt-3 gap-x-10">
-            <div>
-                <div class="relative mb-2">
+            <div class="bg-white px-3">
+                <div class="flex py-5 items-center justify-between ">
+                    <div class="flex items-center gap-x-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="1.5" d="M21.25 12H8.895m-4.361 0H2.75m18.5 6.607h-5.748m-4.361 0H2.75m18.5-13.214h-3.105m-4.361 0H2.75m13.214 2.18a2.18 2.18 0 1 0 0-4.36a2.18 2.18 0 0 0 0 4.36Zm-9.25 6.607a2.18 2.18 0 1 0 0-4.36a2.18 2.18 0 0 0 0 4.36Zm6.607 6.608a2.18 2.18 0 1 0 0-4.361a2.18 2.18 0 0 0 0 4.36Z"/></svg>
+                        <span class="text-lg font-semibold ">Filters</span>
+                    </div>
+                    <button class="border border-black text-black px-2 py-1 rounded-sm">Reset</button>
+                </div>
+                <hr class="pb-5" />
+                <div class="relative mt-2 mb-4">
                     <input 
                         (keydown)="onChangeKeyword($event)"
                         id="keyword" 
@@ -53,28 +49,90 @@
                     filter="category"
                     type="checkbox"
                     (checked)="changeFiltre({type: $event.filter , key: $event.key, value: $event.value})"
-                    [items]="{title: 'Categories', content: categories | categoryName:'name', values: categories | categoryName:'id' }">
+                    [items]="{title: 'Categories', content: categoriesFilter | categoryName:'name', values: categoriesFilter | categoryName:'id', count: categoriesFilter | categoryName: 'productCount' }">
                 </app-accordion>
                 <app-accordion 
                     filter="price"
                     type="radio"
                     (checked)="changeFiltre({type: $event.filter , key: $event.key, value: $event.value})"
-                    [items]="{title: 'Prices', content: ['0$ - $25', '25$ - $50', '50$ - $75', '75$ - $100', '+$100'], values: ['0-25', '25-50', '50-75', '75-100','100-'] }"></app-accordion>
+                    [items]="{title: 'Prices', content: ['0$ - 25$', '25$ - 50$', '50$ - 75$', '75$ - 100$', '+100$'], values: ['0-25', '25-50', '50-75', '75-100','100-'], count: pricesFilter | categoryName: 'productCount' }"></app-accordion>
             </div>
-            <div class="grid-cols-3 grid gap-x-10 gap-y-5 mb-6 w-full">
-                <div 
-                    *ngFor="let product of products"
-                    [routerLink]="['/product', product.id]"
-                    class="bg-white cursor-pointer shadow-lg rounded-md">
-                    <div class="h-[300px] flex items-center  justify-center ">
-                        <img class="h-[250px] w-[250px] w-full" src={{product.imagePath}} />
-                    </div>
-                    <div class="flex justify-between px-2 py-2 items-center border-gray-200 ">
-                        <h4 class="text-gray-700 font-semibold text-md">{{product.title}}</h4>
-                        <span class="text-gray-700 font-bold text-lg text-right">{{product.price}} $</span>
+            <div class="flex-1" *ngIf="products.totalElement> 0">
+                <div class="flex items-center justify-between py-3 bg-white px-2">
+                    <p> Showing
+                        <span class="font-medium">{{products.currentPage * products.sizePages + 1}}</span>
+                        -
+                        <span class="font-medium">{{(products.currentPage * products.sizePages) + products.data.length}}</span>
+                        sur
+                        <span class="font-medium">{{products.totalElement}}</span>
+                        results
+                    </p>
+                    <div class="flex items-center gap-x-1">
+                        Sort by:
+                        <select class="border border-black rounded" (change)="onSortChange($event)">
+                            <option value="0">Newest</option>
+                            <option value="1">Price: Low to High</option>
+                            <option value="2">Price: High to Low</option>
+                        </select>
                     </div>
                 </div>
+                <hr/>
+                <div class="mt-3 grid-cols-3 grid gap-x-10 gap-y-5 mb-6 w-full">
+                    <div 
+                        *ngFor="let product of products.data"
+                        [routerLink]="['/product', product.id]"
+                        class="bg-white cursor-pointer shadow-lg rounded-md">
+                        <div class="h-[300px] flex items-center  justify-center ">
+                            <img class="h-[250px] w-[250px] w-full" src={{product.imagePath}} />
+                        </div>
+                        <div class="flex justify-between px-2 py-2 items-center border-gray-200 ">
+                            <h4 class="text-gray-700 font-semibold text-md">{{product.title}}</h4>
+                            <span class="text-gray-700 font-bold text-lg text-right">{{product.price}} $</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex items-center justify-between mt-2 bg-white px-2 py-3 space-x-2">
+                    <div class="flex flex-1 items-center justify-center mt-2 bg-white sm:px-6" *ngIf="products.totalPages>1">
+                        <nav class="isolate inline-flex -space-x-px rounded-md shadow-sm">
+                            <button (click)="onPrev()" class="relative inline-flex items-center rounded-l-md border border-gray-300 bg-white px-2 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-20">
+                                <span class="sr-only">Previous</span>
+                                <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                    <path fill-rule="evenodd" d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z" clip-rule="evenodd" />
+                                </svg>
+                            </button>
+                            <button *ngFor="let page of createPaginateList(products.currentPage, products.totalPages)" 
+                                (click)="onPaginate(page)"
+                                [ngClass]="{'text-blue-600 bg-blue-50': products.currentPage===page}"
+                                class="relative inline-flex items-center border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-20">
+                                {{ page+1 }}  
+                            </button>
+                            <button (click)="onNext()" class="relative inline-flex items-center rounded-r-md border border-gray-300 bg-white px-2 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-20">
+                                <span class="sr-only">Next</span>
+                                <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                    <path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clip-rule="evenodd" />
+                                </svg>
+                            </button>
+                        </nav>
+                    </div>
+                    <div class="flex item-center gap-x-2">
+                        <span class="flex items-center">Size</span>
+                        <select 
+                            (change)="onChangePageSize($event)" 
+                           
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-1">
+                            <option selected value="9">9</option>
+                            <option value="15">15</option>
+                            <option value="20">20</option>
+                            <option value="25">25</option>
+                        </select>
+
+                    </div>
+                </div>          
             </div>
-        </div>
+            </div>
+            <div class="flex-1 w-1/2  flex flex-col items-center justify-center" *ngIf="products.totalElement===0">
+                <img class="h-[300px]" src="assets/data-not-found.svg">
+                <h4 class="text-2xl font-medium ">No Data Found</h4>
+            </div>
     </div>
 </div>

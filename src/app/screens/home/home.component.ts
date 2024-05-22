@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { category } from 'src/app/models/category.model';
+import { CategoryCount, RangePriceCount, category } from 'src/app/models/category.model';
+import { paginationResponse } from 'src/app/models/pagination-response.model';
 import { product } from 'src/app/models/product.model';
 import { CategoryService } from 'src/app/services/category.service';
 import { HomeService } from 'src/app/services/home.service';
@@ -13,16 +14,20 @@ import { ProductsService } from 'src/app/services/products.service';
 export class HomeComponent implements OnInit {
 
   categories!: category[];
-  products!: product[];
-  categoriesSelected: category[] = [];
+  categoriesFilter!: CategoryCount[];
+  pricesFilter!: RangePriceCount[];
+  
+  
+  products!: paginationResponse;
   currentIndexCategory: number=0;
   filters = {
     keyword: "",
     categories: "",
     prices: "",
-    size: 40,
+    size: 9,
     sort: "",
-    direction: ""
+    direction: "",
+    page: 0,
   }
 
   constructor(private categoryService: CategoryService, private productsService: ProductsService) {
@@ -45,6 +50,18 @@ export class HomeComponent implements OnInit {
         this.categories = data
       }
     )
+    this.categoryService.productCountByCategory().subscribe(
+      data => {
+        this.categoriesFilter = data
+      }
+    )
+
+    this.productsService.productCountByRangePrice().subscribe(
+      data => {
+        this.pricesFilter = data
+      }
+    )
+
     this.findProducts()
     
   }
@@ -52,13 +69,14 @@ export class HomeComponent implements OnInit {
   findProducts() {
     this.productsService.search(this.filters).subscribe(
       data => {
-        this.products = data.data
+        this.products = data
       }
     )
   }
 
   onChangeKeyword(event: Event) {
     this.filters.keyword = (event.target as HTMLInputElement).value
+    this.filters.page=0
     this.findProducts()
   }
   onSortChange(event: Event) {
@@ -66,16 +84,6 @@ export class HomeComponent implements OnInit {
       case "0": this.filters.sort="id"; this.filters.direction="asc"; break;
       case "1": this.filters.sort="price";  this.filters.direction="asc"; break;
       case "2": this.filters.sort="price";  this.filters.direction="desc"; break;    
-    }
-    this.findProducts()
-  }
-
-  toggleCategorySelected(category: category) {
-    if(this.categoriesSelected.includes(category)) {
-      this.categoriesSelected = this.categoriesSelected.filter(data => data.id !== category.id)
-    }
-    else {
-      this.categoriesSelected.push(category)  
     }
     this.findProducts()
   }
@@ -101,7 +109,48 @@ export class HomeComponent implements OnInit {
         this.filters.prices = ""  
       }
     }
+    this.filters.page=0
     this.findProducts()
+  }
+
+  onPaginate(page: number) {
+    this.filters.page = page
+    this.findProducts()
+  }
+
+  onNext() {
+    if(this.products.currentPage !== this.products.totalPages-1) {
+      ++this.filters.page; 
+      this.findProducts()
+    }
+  }
+
+  onPrev() {
+    if(this.products.currentPage !== 0) {
+      --this.filters.page; 
+      this.findProducts()
+    }
+  }
+
+
+  onChangePageSize($event: any) {
+    this.filters.size = $event.target.value
+    this.filters.page = 0
+    this.findProducts()
+  }
+
+  createPaginateList(currentPage: number, numberPages: number): number[] {
+    const maxShowPages: number=5
+    let res: number[]=[]
+    let start = Math.max(0, currentPage-2)
+    let end = Math.min(numberPages, start+maxShowPages)
+    if(end-start < maxShowPages) {
+      start = Math.max(0, end-maxShowPages) 
+    }
+    for(let i=start; i<end;i++) {
+      res.push(i)
+    }
+    return res;
   }
 
 }

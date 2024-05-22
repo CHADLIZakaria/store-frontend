@@ -1,5 +1,5 @@
 import { trigger } from '@angular/animations';
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { product } from 'src/app/models/product.model';
 import { UserLogin } from 'src/app/models/userLogin.model';
@@ -13,15 +13,8 @@ import { ProductsService } from 'src/app/services/products.service';
 })
 export class NavbarComponent implements OnInit {
   @Output() toggleSidebar =  new EventEmitter<boolean>();
-  isShow = false
+  @Input() statusSidebar!: boolean;
   isLogin = false
-  userLogin: UserLogin={
-    "access_token": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhdHVueTAiLCJpc0FkbWluIjp0cnVlLCJleHAiOjE3MDg1NDUwODQsImlhdCI6MTcwODQ1ODY4NH0.Xy-tSjCwZZNUStSOXInFj6ZJNTRR4s3Zpx75OzIUNlEoOLThbfbgpMDjC2SF_uGmXJU6a-B7pQctw1CcOP82vA",
-    "imagePath": "http://localhost:8080/api/files/upload/user_1.jpg",
-    "isAdmin": true,
-    "expires_in": 86399983,
-    "username": "atuny0"
-  };
   searchProducts: product[]= [];
   searchControl!: FormControl;
 
@@ -41,7 +34,6 @@ export class NavbarComponent implements OnInit {
     this.authService.userAuth.subscribe(data => {
       if(data != null) {
         this.isLogin = true
-        this.userLogin = data
       }
     })
    
@@ -56,8 +48,8 @@ export class NavbarComponent implements OnInit {
   }
 
   onToggle() {
-    this.isShow = ! this.isShow
-    this.toggleSidebar.emit(this.isShow)
+    this.statusSidebar = !this.statusSidebar
+    this.toggleSidebar.emit(this.statusSidebar)
   }
 
 }
