@@ -10,6 +10,7 @@ import { SigninComponent } from './screens/signin/signin.component';
 import { SignupComponent } from './screens/signup/signup.component';
 import { UsersComponent } from './screens/users/users.component';
 import { ReviewsComponent } from './screens/reviews/reviews.component';
+import { NotFoundComponent } from './screens/not-found/not-found.component';
 
 const routes: Routes = [
   {component: HomeComponent, path: ''},
@@ -21,7 +22,8 @@ const routes: Routes = [
   {component: UsersComponent, path: 'users'},
   {component: ReviewsComponent, path: 'reviews'},
   {component: FormProductComponent, path: 'products/save'},
-  {component: DashboardComponent, path: 'dashboard'}
+  {component: DashboardComponent, path: 'dashboard'},
+  {component: NotFoundComponent, path:'**'}
 ];
 
 @NgModule({

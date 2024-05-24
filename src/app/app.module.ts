@@ -28,6 +28,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CategoryNamePipe } from './pipes/category-name.pipe';
 import { DropDown1Directive } from './directives/drop-down1.directive';
 import { RangePricePipe } from './pipes/range-price.pipe';
+import { NotFoundComponent } from './screens/not-found/not-found.component';
 
 
 @NgModule({
@@ -53,7 +54,8 @@ import { RangePricePipe } from './pipes/range-price.pipe';
     AccordionComponent,
     CategoryNamePipe,
     DropDown1Directive,
-    RangePricePipe
+    RangePricePipe,
+    NotFoundComponent
   ],
   imports: [
     BrowserModule,
