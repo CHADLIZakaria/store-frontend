@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { EventEmitter, Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, Subject, tap } from 'rxjs';
-import { environment } from '../environments/environment';
 import { CategoryCount, category } from '../models/category.model';
+import { environment } from 'src/environnments/environnment';
 
 @Injectable({
   providedIn: 'root'

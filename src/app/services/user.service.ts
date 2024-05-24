@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { environment } from '../environments/environment';
+import { environment } from 'src/environnments/environnment';
 import { user } from '../models/user.model';
 import { paginationResponse } from '../models/pagination-response.model';
 import { searchUser } from '../models/search.model';

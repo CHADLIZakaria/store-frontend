@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { environment } from '../environments/environment';
+import { environment } from 'src/environnments/environnment';
 import { review } from '../models/review.model';
 import { paginationResponse } from '../models/pagination-response.model';
 import { searchReview } from '../models/search.model';
