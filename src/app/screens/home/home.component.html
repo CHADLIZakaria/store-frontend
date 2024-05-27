@@ -1,4 +1,4 @@
-<div class="container mx-auto bg-main-color px-5 py-5" *ngIf="categories && products">
+<div class="container mx-auto bg-main-color px-5 py-5 h-full" *ngIf="categories && products">
     <h4 class="mb-2 font-lg">Choose your category</h4>
     <div class="flex gap-5 mb-5">
         <svg 
@@ -55,7 +55,7 @@
                     filter="price"
                     type="radio"
                     (checked)="changeFiltre({type: $event.filter , key: $event.key, value: $event.value})"
-                    [items]="{title: 'Prices', content: ['0$ - 25$', '25$ - 50$', '50$ - 75$', '75$ - 100$', '+100$'], values: ['0-25', '25-50', '50-75', '75-100','100-'], count: pricesFilter | categoryName: 'productCount' }"></app-accordion>
+                    [items]="{title: 'Prices', content: pricesFilter | rangePrice: 'title', values: pricesFilter | rangePrice: 'id', count: pricesFilter | rangePrice: 'value' }"></app-accordion>
             </div>
             <div class="flex-1" *ngIf="products.totalElement> 0">
                 <div class="flex items-center justify-between py-3 bg-white px-2">
@@ -102,8 +102,9 @@
                             </button>
                             <button *ngFor="let page of createPaginateList(products.currentPage, products.totalPages)" 
                                 (click)="onPaginate(page)"
-                                [ngClass]="{'text-blue-600 bg-blue-50': products.currentPage===page}"
-                                class="relative inline-flex items-center border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-20">
+                                class="relative inline-flex items-center border border-gray-300  px-4 py-2 text-sm font-medium  hover:bg-gray-50 focus:z-20"
+                                [ngClass]="products.currentPage===page ? 'text-blue-600 bg-blue-50': 'text-gray-500 bg-white'"
+                                >
                                 {{ page+1 }}  
                             </button>
                             <button (click)="onNext()" class="relative inline-flex items-center rounded-r-md border border-gray-300 bg-white px-2 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-20">
@@ -117,8 +118,7 @@
                     <div class="flex item-center gap-x-2">
                         <span class="flex items-center">Size</span>
                         <select 
-                            (change)="onChangePageSize($event)" 
-                           
+                            (change)="onChangePageSize($event)"                            
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-1">
                             <option selected value="9">9</option>
                             <option value="15">15</option>
@@ -129,10 +129,10 @@
                     </div>
                 </div>          
             </div>
-            </div>
             <div class="flex-1 w-1/2  flex flex-col items-center justify-center" *ngIf="products.totalElement===0">
                 <img class="h-[300px]" src="assets/data-not-found.svg">
                 <h4 class="text-2xl font-medium ">No Data Found</h4>
             </div>
+        </div>
     </div>
 </div>

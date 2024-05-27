@@ -1,6 +1,7 @@
 import { trigger } from '@angular/animations';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 import { product } from 'src/app/models/product.model';
 import { UserLogin } from 'src/app/models/userLogin.model';
 import { AuthService } from 'src/app/services/auth.service';
@@ -14,12 +15,13 @@ import { ProductsService } from 'src/app/services/products.service';
 export class NavbarComponent implements OnInit {
   @Output() toggleSidebar =  new EventEmitter<boolean>();
   @Input() statusSidebar!: boolean;
-  isLogin = false
   searchProducts: product[]= [];
   searchControl!: FormControl;
+  isLogin!: boolean;
+  isAdmin!: boolean;
+  user!: any;
 
-
-  constructor(private authService: AuthService, private productService: ProductsService) {
+  constructor(public authService: AuthService, private productService: ProductsService, private router: Router) {
     this.searchControl = new FormControl('')    
   }
 
@@ -31,12 +33,17 @@ export class NavbarComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.authService.userAuth.subscribe(data => {
-      if(data != null) {
-        this.isLogin = true
+    this.authService.user.subscribe(user => {
+      this.isLogin = this.authService.isAuth
+      this.isAdmin = this.authService.isAdmin
+      this.user = user
+      if(this.isAdmin) {
+        this.router.navigate(['/dashboard'])
       }
-    })
-   
+      else if(this.isLogin) {
+        this.router.navigate(['/'])
+      }
+    })   
     this.searchControl.valueChanges.subscribe(value => {
       if(value==='') {
         this.searchProducts=[]
@@ -50,6 +57,16 @@ export class NavbarComponent implements OnInit {
   onToggle() {
     this.statusSidebar = !this.statusSidebar
     this.toggleSidebar.emit(this.statusSidebar)
+  }
+
+  logout() {
+    this.authService.logout()
+  }
+
+  onClickElement(value: string) {
+    if(value==='logout') {
+      this.authService.logout()
+    }
   }
 
 }

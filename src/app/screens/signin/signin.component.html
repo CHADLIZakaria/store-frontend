@@ -54,7 +54,12 @@
                     <span  *ngIf="isRequiredError('password')" class="text-red-600 text-sm">Password is required</span>                  
                 </div>
                 <div>
-                    <button [disabled]="!userForm.valid" (click)="login()" type="button" class="w-full flex justify-center bg-gray-700 hover:bg-gray-800 text-gray-100 p-3  rounded-lg tracking-wide font-semibold  shadow-lg transition ease-in duration-500">
+                    <button 
+                        [disabled]="!userForm.valid" 
+                        (click)="login()" 
+                        type="button" 
+                        [ngClass]="{'cursor-pointer': userForm.valid}"
+                        class="w-full flex justify-center bg-gray-700 hover:bg-gray-800 text-gray-100 p-3  rounded-lg tracking-wide font-semibold shadow-lg transition ease-in duration-500">
                         Login
                     </button>
                 </div>

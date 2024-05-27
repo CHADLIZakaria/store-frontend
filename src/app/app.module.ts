@@ -29,6 +29,7 @@ import { CategoryNamePipe } from './pipes/category-name.pipe';
 import { DropDown1Directive } from './directives/drop-down1.directive';
 import { RangePricePipe } from './pipes/range-price.pipe';
 import { NotFoundComponent } from './screens/not-found/not-found.component';
+import { DropDownComponent } from './components/drop-down/drop-down.component';
 
 
 @NgModule({
@@ -55,7 +56,8 @@ import { NotFoundComponent } from './screens/not-found/not-found.component';
     CategoryNamePipe,
     DropDown1Directive,
     RangePricePipe,
-    NotFoundComponent
+    NotFoundComponent,
+    DropDownComponent
   ],
   imports: [
     BrowserModule,

@@ -15,7 +15,7 @@
                 </div>
             </div>
             <div  appDropDown1 #r="appDropDown1"  class="flex items-center gap-x-8">
-                <svg (click)="onToggle()" class="cursor-pointer" width="35" height="35" viewBox="0 0 35 35" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <svg *ngIf="isAdmin" (click)="onToggle()" class="cursor-pointer" width="35" height="35" viewBox="0 0 35 35" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M32.0833 26.2572C32.0833 27.0593 31.4329 27.7083 30.6323 27.7083H18.951C18.5662 27.7083 18.1971 27.5554 17.925 27.2833C17.6529 27.0112 17.5 26.6421 17.5 26.2572C17.5 25.8724 17.6529 25.5033 17.925 25.2312C18.1971 24.9591 18.5662 24.8062 18.951 24.8062H30.6323C31.4344 24.8062 32.0833 25.4552 32.0833 26.2572ZM32.0833 17.5C32.0833 18.302 31.4329 18.951 30.6323 18.951H4.36771C3.98287 18.951 3.61379 18.7981 3.34166 18.526C3.06954 18.2539 2.91666 17.8848 2.91666 17.5C2.91666 17.1151 3.06954 16.746 3.34166 16.4739C3.61379 16.2018 3.98287 16.0489 4.36771 16.0489H30.6323C31.4344 16.0489 32.0833 16.6993 32.0833 17.5ZM30.6323 10.1937C31.0171 10.1937 31.3862 10.0408 31.6583 9.76871C31.9305 9.49659 32.0833 9.12751 32.0833 8.74267C32.0833 8.35783 31.9305 7.98875 31.6583 7.71663C31.3862 7.4445 31.0171 7.29163 30.6323 7.29163H13.1177C12.9272 7.29163 12.7385 7.32916 12.5624 7.40208C12.3864 7.475 12.2264 7.58188 12.0917 7.71663C11.9569 7.85137 11.85 8.01133 11.7771 8.18738C11.7042 8.36343 11.6667 8.55211 11.6667 8.74267C11.6667 8.93322 11.7042 9.12191 11.7771 9.29796C11.85 9.47401 11.9569 9.63397 12.0917 9.76871C12.2264 9.90345 12.3864 10.0103 12.5624 10.0833C12.7385 10.1562 12.9272 10.1937 13.1177 10.1937H30.6323Z" fill="black"/>
                 </svg>
                 <a routerLink="/" class="logo gap-x-2 flex items-center cursor-pointer">
@@ -29,10 +29,16 @@
                     </span>
                 </div>
             </div>
-            <div class="flex item-center gap-x-2">
-                <a routerLink="/signup" class="border border-black bg-black text-white px-2 py-1 rounded-lg shadow-lg">Sign Up</a>
-                <a routerLink="/login" class="border border-black text-black px-2 py-1 rounded-lg shadow-lg">Log In</a>
+            <div  
+                *ngIf="!isLogin" class="flex item-center gap-x-2">
+                <a routerLink="/login" class="border border-gray-700 text-gray-700 px-2 py-1 rounded-lg shadow-lg font-semibold">Log In</a>
+                <a routerLink="/signup" class="bg-gray-700 hover:bg-gray-800 text-gray-100 px-2 py-1 rounded-lg shadow-lg font-semibold">Sign Up</a>
             </div>
+           <app-drop-down 
+                *ngIf="isLogin"
+                (onClickElement)="onClickElement($event)"
+                [title]="user.username"
+            ></app-drop-down>
         </div>
     </nav>
 </div>

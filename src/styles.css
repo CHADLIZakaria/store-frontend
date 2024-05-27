@@ -5,3 +5,14 @@
 :root {
     --bg-main-color: '#F5F8FB';
 }
+
+router-outlet + * {
+   display: flex;
+   flex-direction: column;
+   flex: 1;
+}
+
+
+router-outlet + * > div{
+    flex: 1;
+ }
