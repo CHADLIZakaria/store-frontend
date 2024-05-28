@@ -11,18 +11,24 @@ import { SignupComponent } from './screens/signup/signup.component';
 import { UsersComponent } from './screens/users/users.component';
 import { ReviewsComponent } from './screens/reviews/reviews.component';
 import { NotFoundComponent } from './screens/not-found/not-found.component';
+import { AdminGuard } from './guards/admin.guard';
 
 const routes: Routes = [
   {component: HomeComponent, path: ''},
   {component: SigninComponent, path: 'login'},
   {component: SignupComponent, path: 'signup'},
   {component: ProductDetailsComponent, path: 'product/:id'},
-  {component: CategoriesComponent, path: 'categories'},
-  {component: ProductsComponent, path: 'products'},
-  {component: UsersComponent, path: 'users'},
-  {component: ReviewsComponent, path: 'reviews'},
-  {component: FormProductComponent, path: 'products/save'},
-  {component: DashboardComponent, path: 'dashboard'},
+  { path: 'admin', 
+    canActivate: [AdminGuard],
+    children: [
+      {component: DashboardComponent, path: 'dashboard'},
+      {component: CategoriesComponent, path: 'categories'},
+      {component: FormProductComponent, path: 'products/save'},
+      {component: ProductsComponent, path: 'products'},
+      {component: UsersComponent, path: 'users'},
+      {component: ReviewsComponent, path: 'reviews'},
+    ]
+  },  
   {component: NotFoundComponent, path:'**'}
 ];
 

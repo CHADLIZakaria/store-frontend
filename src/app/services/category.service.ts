@@ -23,6 +23,7 @@ export class CategoryService {
   }
 
   save(category: category): Observable<category> {
+    console.log(category.image)
     const formData = new FormData()
     formData.append("name", category.name)    
     formData.append("file", category.image)

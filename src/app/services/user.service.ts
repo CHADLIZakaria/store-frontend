@@ -14,6 +14,7 @@ export class UserService {
   constructor(private http: HttpClient) { }
 
   save(user: user): Observable<user> {
+    console.log(user.imagePath)
     let formData: FormData = new FormData();
     formData.append('username', user.username)
     formData.append('password', user.password)
@@ -22,6 +23,8 @@ export class UserService {
     formData.append('email', user.email)
     formData.append('sex', user.sex)
     formData.append('phoneNumber', user.phoneNumber)
+    formData.append('file', user.imagePath)
+    
     return this.http.post<user>(environment.apiUrl+'user', formData)
   }
 

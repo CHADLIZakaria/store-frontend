@@ -38,7 +38,7 @@ export class NavbarComponent implements OnInit {
       this.isAdmin = this.authService.isAdmin
       this.user = user
       if(this.isAdmin) {
-        this.router.navigate(['/dashboard'])
+        this.router.navigate(['/admin/dashboard'])
       }
       else if(this.isLogin) {
         this.router.navigate(['/'])

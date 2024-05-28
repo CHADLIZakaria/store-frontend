@@ -8,8 +8,6 @@ import { AuthService } from 'src/app/services/auth.service';
   styleUrls: ['./signin.component.css']
 })
 export class SigninComponent implements OnInit {
-
-
   userForm!: FormGroup;
   isPassword: boolean = true;
   messageError!: string;
@@ -25,15 +23,14 @@ export class SigninComponent implements OnInit {
   }
 
   login() {
-    const _this = this;
-    this.authService.login(this.userForm.value).subscribe({
-      next(data) {
-        
+    //const _this = this;
+    this.authService.login(this.userForm.value).subscribe(
+      (data) => {
       },
-      error(err) {
-        _this.messageError = err.error.message;
-      }
-    });
+      (err) => {
+        this.messageError = err.error.message;
+      },
+    );
   }
     
 
