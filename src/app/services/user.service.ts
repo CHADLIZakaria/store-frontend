@@ -14,7 +14,6 @@ export class UserService {
   constructor(private http: HttpClient) { }
 
   save(user: user): Observable<user> {
-    console.log(user.imagePath)
     let formData: FormData = new FormData();
     formData.append('username', user.username)
     formData.append('password', user.password)

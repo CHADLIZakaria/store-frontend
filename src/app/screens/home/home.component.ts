@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { AccordionComponent } from 'src/app/components/accordion/accordion.component';
 import { CategoryCount, RangePriceCount, category } from 'src/app/models/category.model';
 import { paginationResponse } from 'src/app/models/pagination-response.model';
 import { product } from 'src/app/models/product.model';
@@ -29,6 +30,7 @@ export class HomeComponent implements OnInit {
     direction: "",
     page: 0,
   }
+  @ViewChild(AccordionComponent) childComponent!: AccordionComponent;
 
   constructor(private categoryService: CategoryService, private productsService: ProductsService) {
   }
@@ -89,7 +91,7 @@ export class HomeComponent implements OnInit {
   }
 
   getTranslation() {
-    return  'translateX(' + (-100 * this.currentIndexCategory) + '%)';
+    return 'translateX(' + (-100 * this.currentIndexCategory) + '%)';
   }
 
   changeFiltre(value: {type: string, key: string, value: boolean}) {
@@ -130,6 +132,13 @@ export class HomeComponent implements OnInit {
       --this.filters.page; 
       this.findProducts()
     }
+  }
+
+  onReset() {
+    //this.filters.categories=""
+    //this.filters.prices=""
+   // this.findProducts()
+    this.childComponent.resetFilters()
   }
 
 

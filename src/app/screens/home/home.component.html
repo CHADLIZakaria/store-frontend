@@ -30,7 +30,9 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="1.5" d="M21.25 12H8.895m-4.361 0H2.75m18.5 6.607h-5.748m-4.361 0H2.75m18.5-13.214h-3.105m-4.361 0H2.75m13.214 2.18a2.18 2.18 0 1 0 0-4.36a2.18 2.18 0 0 0 0 4.36Zm-9.25 6.607a2.18 2.18 0 1 0 0-4.36a2.18 2.18 0 0 0 0 4.36Zm6.607 6.608a2.18 2.18 0 1 0 0-4.361a2.18 2.18 0 0 0 0 4.36Z"/></svg>
                         <span class="text-lg font-semibold ">Filters</span>
                     </div>
-                    <button class="border border-black text-black px-2 py-1 rounded-sm">Reset</button>
+                    <button 
+                        (click)="onReset()"
+                        class="border border-black text-black px-2 py-1 rounded-sm">Reset</button>
                 </div>
                 <hr class="pb-5" />
                 <div class="relative mt-2 mb-4">
@@ -49,13 +51,20 @@
                     filter="category"
                     type="checkbox"
                     (checked)="changeFiltre({type: $event.filter , key: $event.key, value: $event.value})"
-                    [items]="{title: 'Categories', content: categoriesFilter | categoryName:'name', values: categoriesFilter | categoryName:'id', count: categoriesFilter | categoryName: 'productCount' }">
+                    [items]="{
+                        title: 'Categories', 
+                        content: categoriesFilter | categoryName:'name', 
+                        values: categoriesFilter | categoryName:'id', 
+                        count: categoriesFilter | categoryName: 'productCount',
+                        }">
                 </app-accordion>
+                
                 <app-accordion 
                     filter="price"
                     type="radio"
                     (checked)="changeFiltre({type: $event.filter , key: $event.key, value: $event.value})"
-                    [items]="{title: 'Prices', content: pricesFilter | rangePrice: 'title', values: pricesFilter | rangePrice: 'id', count: pricesFilter | rangePrice: 'value' }"></app-accordion>
+                    [items]="{title: 'Prices', content: pricesFilter | rangePrice: 'title', values: pricesFilter | rangePrice: 'id', count: pricesFilter | rangePrice: 'value'}"
+                    ></app-accordion>
             </div>
             <div class="flex-1" *ngIf="products.totalElement> 0">
                 <div class="flex items-center justify-between py-3 bg-white px-2">

@@ -14,7 +14,7 @@ import { DashboardComponent } from './screens/dashboard/dashboard.component';
 import { FormCategoryComponent } from './screens/categories/popup/form-category/form-category.component';
 import { DndDirective } from './dnd.directive';
 import { HttpClientModule } from '@angular/common/http';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DeleteCategoryComponent } from './screens/categories/popup/delete-category/delete-category.component';
 import { ProductsComponent } from './screens/products/products.component';
 import { FormProductComponent } from './screens/products/form-product/form-product.component';
@@ -64,7 +64,8 @@ import { DropDownComponent } from './components/drop-down/drop-down.component';
     AppRoutingModule,
     HttpClientModule,
     ReactiveFormsModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
