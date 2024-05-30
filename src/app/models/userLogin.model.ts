@@ -5,3 +5,10 @@ export interface UserLogin {
     isAdmin: boolean,
     expires_in: number
 }
+
+export interface UserAuth {
+    imagePath: string;
+    username: string;
+    token: string;
+    expirationDate: Date
+}

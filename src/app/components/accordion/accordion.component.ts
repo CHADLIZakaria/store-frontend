@@ -66,7 +66,6 @@ export class AccordionComponent implements OnInit {
 
   resetFilters() {
     this.checkedElement = []
-   // this.checkedEvent.emit({filter: this.type, key: '', value: false})
   }
   
   fieldsChange(value: any) {

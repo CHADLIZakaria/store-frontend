@@ -6,7 +6,6 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class ReviewCountPipe implements PipeTransform {
 
   transform(reviews: any[], column: string): any[] {
-    console.log(reviews[0].rating)
     if(column==='title') {
       return reviews.map(review => Array.from({ length: 5 }, (element1: number, element2: number) => 
         element2+1 <= review.rating ? 
