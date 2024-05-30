@@ -12,12 +12,12 @@ import { AuthService } from '../services/auth.service';
 export class AuthInterceptor implements HttpInterceptor {
 
   constructor(private authService: AuthService) {}
-
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
+    console.log(JSON.parse(localStorage.getItem('user')??'{}').access_token)
     if(this.authService.isAuth) {
       const authRequest = request.clone({
         setHeaders: {
-          Authorization: 'Bearer '+this.authService.userAuthValue.token
+          Authorization: 'Bearer '+JSON.parse(localStorage.getItem('user')??'{}').access_token
         }
       })
       return  next.handle(authRequest)

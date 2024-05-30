@@ -1,5 +1,6 @@
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges } from '@angular/core';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-accordion',
@@ -26,17 +27,20 @@ export class AccordionComponent implements OnInit {
   @Input("type") type!: string;
   @Input("filter") filter!: string;
   @Output("checked") checkedEvent = new EventEmitter<{filter: string, key: string, value: boolean}>();
-  @Input("reset") reset!: any;
 
   isOpen: boolean = true;
   diplayContent:  string[] = []
   isShowAll = false;
-  selected: string=''
 
   checkedElement: string[]=[]
+  sanitizedContent!: SafeHtml;
   
   ngOnInit(): void {
     this.getDisplayContent();
+  }
+
+  constructor(private sanitizer: DomSanitizer) {
+    
   }
  
   getDisplayContent() {
@@ -61,12 +65,9 @@ export class AccordionComponent implements OnInit {
   }
 
   resetFilters() {
-    this.checkedElement.splice(0, this.checkedElement.length)
-    console.log(this.checkedElement)
-    this.checkedEvent.emit({filter: 'price', key: '', value: false})
-    this.checkedEvent.emit({filter: 'category', key: '', value: false})
+    this.checkedElement = []
+   // this.checkedEvent.emit({filter: this.type, key: '', value: false})
   }
-
   
   fieldsChange(value: any) {
     if(this.type==='checkbox') {
@@ -82,6 +83,7 @@ export class AccordionComponent implements OnInit {
     }
     else if(this.type==='radio') {
       this.checkedElement = []
+    
       if(value.currentTarget.checked) {
         this.checkedElement.push(value.currentTarget.value.toString())
       }      
@@ -94,10 +96,11 @@ export class AccordionComponent implements OnInit {
   }
 
   isChecked(index: string) {
-    console.log(this.checkedElement)
-    console.log(this.checkedElement.includes(index.toString()))
     return this.checkedElement.includes(index.toString())
   }
 
+  sanitizeContent(text: string): SafeHtml {
+    return this.sanitizer.bypassSecurityTrustHtml(text);
+  }
  
 }

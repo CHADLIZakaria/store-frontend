@@ -13,7 +13,7 @@ export class RangePricePipe implements PipeTransform {
       return pricesRange.map(price => price['productCount']);
     }
     else if(column==='id') {
-      return pricesRange.map(price => price['maxPrice']===null ? `${price['minPrice']}` : `${price['minPrice']} - ${price['maxPrice']}`);
+      return pricesRange.map(price => price['maxPrice']===null ? `${price['minPrice']}` : `${price['minPrice']}-${price['maxPrice']}`);
     }
     else return [];
   }

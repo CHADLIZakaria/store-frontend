@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
@@ -12,7 +13,7 @@ export class SigninComponent implements OnInit {
   isPassword: boolean = true;
   messageError!: string;
 
-  constructor(private authService: AuthService) {
+  constructor(private authService: AuthService, private router: Router) {
   }
 
   ngOnInit(): void {
@@ -23,9 +24,14 @@ export class SigninComponent implements OnInit {
   }
 
   login() {
-    //const _this = this;
     this.authService.login(this.userForm.value).subscribe(
       (data) => {
+        if(this.authService.isAdmin) {
+          this.router.navigate(['/admin/dashboard'])
+        }
+        else if(this.authService.isAuth) {
+          this.router.navigate(['/'])
+        }
       },
       (err) => {
         this.messageError = err.error.message;

@@ -13,7 +13,7 @@ import { ProductDetailsComponent } from './screens/product-details/product-detai
 import { DashboardComponent } from './screens/dashboard/dashboard.component';
 import { FormCategoryComponent } from './screens/categories/popup/form-category/form-category.component';
 import { DndDirective } from './dnd.directive';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DeleteCategoryComponent } from './screens/categories/popup/delete-category/delete-category.component';
 import { ProductsComponent } from './screens/products/products.component';
@@ -30,6 +30,8 @@ import { DropDown1Directive } from './directives/drop-down1.directive';
 import { RangePricePipe } from './pipes/range-price.pipe';
 import { NotFoundComponent } from './screens/not-found/not-found.component';
 import { DropDownComponent } from './components/drop-down/drop-down.component';
+import { AuthInterceptor } from './interceptors/auth.interceptor';
+import { ReviewCountPipe } from './pipes/review-count.pipe';
 
 
 @NgModule({
@@ -57,7 +59,8 @@ import { DropDownComponent } from './components/drop-down/drop-down.component';
     DropDown1Directive,
     RangePricePipe,
     NotFoundComponent,
-    DropDownComponent
+    DropDownComponent,
+    ReviewCountPipe
   ],
   imports: [
     BrowserModule,
@@ -67,7 +70,9 @@ import { DropDownComponent } from './components/drop-down/drop-down.component';
     BrowserAnimationsModule,
     FormsModule
   ],
-  providers: [],
+  providers: [
+    {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

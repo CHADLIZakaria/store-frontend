@@ -17,3 +17,8 @@ export interface RangePriceCount {
     maxPrice: number;
     productCount: number;
 }
+
+export interface ReviewCount {
+    rating: number;
+    productCount: number;
+}

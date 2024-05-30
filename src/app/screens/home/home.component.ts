@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { AccordionComponent } from 'src/app/components/accordion/accordion.component';
-import { CategoryCount, RangePriceCount, category } from 'src/app/models/category.model';
+import { CategoryCount, RangePriceCount, ReviewCount, category } from 'src/app/models/category.model';
 import { paginationResponse } from 'src/app/models/pagination-response.model';
 import { product } from 'src/app/models/product.model';
 import { CategoryService } from 'src/app/services/category.service';
@@ -13,11 +14,10 @@ import { ProductsService } from 'src/app/services/products.service';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-
   categories!: category[];
   categoriesFilter!: CategoryCount[];
   pricesFilter!: RangePriceCount[];
-  
+  reviewsFilter!: ReviewCount[];
   
   products!: paginationResponse;
   currentIndexCategory: number=0;
@@ -29,10 +29,16 @@ export class HomeComponent implements OnInit {
     sort: "",
     direction: "",
     page: 0,
+    reviews: ""
   }
-  @ViewChild(AccordionComponent) childComponent!: AccordionComponent;
+  @ViewChild("categoryFilter") categoryFilter!: AccordionComponent;
+  @ViewChild("priceFilter") priceFilter!: AccordionComponent;
+  @ViewChild("reviewFilter") reviewFilter!: AccordionComponent;
+  
+  keyword!: FormControl;
 
   constructor(private categoryService: CategoryService, private productsService: ProductsService) {
+    this.keyword = new FormControl(null);
   }
 
   previousCarousel() {   
@@ -57,15 +63,23 @@ export class HomeComponent implements OnInit {
         this.categoriesFilter = data
       }
     )
-
     this.productsService.productCountByRangePrice().subscribe(
       data => {
         this.pricesFilter = data
       }
     )
+    this.productsService.productCountByReviews().subscribe(
+      data => {
+        this.reviewsFilter = data
+      }
+    )
 
+    this.keyword.valueChanges.subscribe(value => {
+      this.filters.keyword = value
+      this.filters.page=0
+      this.findProducts()
+    })
     this.findProducts()
-    
   }
 
   findProducts() {
@@ -76,11 +90,6 @@ export class HomeComponent implements OnInit {
     )
   }
 
-  onChangeKeyword(event: Event) {
-    this.filters.keyword = (event.target as HTMLInputElement).value
-    this.filters.page=0
-    this.findProducts()
-  }
   onSortChange(event: Event) {
     switch((event.target as HTMLInputElement).value) {
       case "0": this.filters.sort="id"; this.filters.direction="asc"; break;
@@ -111,6 +120,14 @@ export class HomeComponent implements OnInit {
         this.filters.prices = ""  
       }
     }
+    if(value.type==='review') { 
+      if(value.value) {
+        this.filters.reviews = value.key
+      }
+      else {
+        this.filters.reviews = ""  
+      }
+    }
     this.filters.page=0
     this.findProducts()
   }
@@ -135,10 +152,21 @@ export class HomeComponent implements OnInit {
   }
 
   onReset() {
-    //this.filters.categories=""
-    //this.filters.prices=""
-   // this.findProducts()
-    this.childComponent.resetFilters()
+    this.categoryFilter.resetFilters()
+    this.priceFilter.resetFilters()    
+    this.reviewFilter.resetFilters()
+    this.filters = {
+      keyword: "",
+      categories: "",
+      prices: "",
+      size: 9,
+      sort: "",
+      direction: "",
+      page: 0,
+      reviews: ""
+    }
+    this.keyword.setValue(null)
+    this.findProducts()
   }
 
 

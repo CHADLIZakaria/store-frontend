@@ -36,13 +36,7 @@ export class NavbarComponent implements OnInit {
     this.authService.user.subscribe(user => {
       this.isLogin = this.authService.isAuth
       this.isAdmin = this.authService.isAdmin
-      this.user = user
-      if(this.isAdmin) {
-        this.router.navigate(['/admin/dashboard'])
-      }
-      else if(this.isLogin) {
-        this.router.navigate(['/'])
-      }
+      this.user = user      
     })   
     this.searchControl.valueChanges.subscribe(value => {
       if(value==='') {

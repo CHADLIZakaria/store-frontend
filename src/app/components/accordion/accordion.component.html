@@ -13,13 +13,17 @@
 <div class="my-3 overflow-hidden"  [@slideToggle]="isOpen ? 'open' : 'closed'" >
     <div *ngFor="let category of diplayContent; let i=index" class="flex items-cente justify-between  mb-1">
         <div class="flex items-center gap-x-2">
-            <input
-               
+            <input               
                 [id]="filter+'_'+i" 
-                type={{type}} [checked]="isChecked(items.values[i])" name={{filter}} value={{items.values[i]}} (change)="fieldsChange($event)" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded">
-            <label [for]="filter+'_'+i" class="ms-2 text-sm font-medium text-gray-900">{{category}}</label>
+                type={{type}} 
+                [checked]="isChecked(items.values[i])" 
+                name={{filter}} 
+                value={{items.values[i]}} 
+                (change)="fieldsChange($event)" 
+                class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded">
+            <label [for]="filter+'_'+i" class="ms-2 text-sm font-medium text-gray-900 flex" [innerHTML]="sanitizeContent(category)"></label>
         </div>
-        <span class="text-gray-900 text-md">({{items.count[i]}})  {{checkedElement | json}}</span>
+        <span class="text-gray-900 text-md">({{items.count[i]}})</span>
     </div>
     <button *ngIf="this.items.content.length > 5" class="text-blue-400" (click)="toggleShowMore()">{{isShowAll  ? "Show Less" : "Show More"}}</button>
 </div>

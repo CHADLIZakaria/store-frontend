@@ -37,17 +37,18 @@
                 <hr class="pb-5" />
                 <div class="relative mt-2 mb-4">
                     <input 
-                        (keydown)="onChangeKeyword($event)"
                         id="keyword" 
                         name="keyword" 
                         type="text" 
+                        [formControl]="keyword"
                         placeholder="Enter a keyword" 
                         class="border border-black rounded-md px-2 shadow py-1" />
                      <span class="absolute right-0 top-1/2 transform -translate-y-1/2">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 24 24"><path fill="currentColor" d="m19.6 21l-6.3-6.3q-.75.6-1.725.95T9.5 16q-2.725 0-4.612-1.888T3 9.5t1.888-4.612T9.5 3t4.613 1.888T16 9.5q0 1.1-.35 2.075T14.7 13.3l6.3 6.3zM9.5 14q1.875 0 3.188-1.312T14 9.5t-1.312-3.187T9.5 5T6.313 6.313T5 9.5t1.313 3.188T9.5 14"/></svg>
                     </span>
-                </div>            
+                </div>  
                 <app-accordion 
+                    #categoryFilter
                     filter="category"
                     type="checkbox"
                     (checked)="changeFiltre({type: $event.filter , key: $event.key, value: $event.value})"
@@ -57,14 +58,32 @@
                         values: categoriesFilter | categoryName:'id', 
                         count: categoriesFilter | categoryName: 'productCount',
                         }">
-                </app-accordion>
-                
+                </app-accordion> 
                 <app-accordion 
+                    #priceFilter
                     filter="price"
                     type="radio"
                     (checked)="changeFiltre({type: $event.filter , key: $event.key, value: $event.value})"
-                    [items]="{title: 'Prices', content: pricesFilter | rangePrice: 'title', values: pricesFilter | rangePrice: 'id', count: pricesFilter | rangePrice: 'value'}"
-                    ></app-accordion>
+                    [items]="{
+                        title: 'Prices',
+                        content: pricesFilter | rangePrice: 'title', 
+                        values: pricesFilter | rangePrice: 'id', 
+                        count: pricesFilter | rangePrice: 'value'
+                        }">
+                </app-accordion>   
+                <app-accordion 
+                    #reviewFilter
+                    filter="review"
+                    type="radio"
+                    (checked)="changeFiltre({type: $event.filter , key: $event.key, value: $event.value})"
+                    [items]="{
+                        title: 'Reviews',
+                        content: reviewsFilter | reviewCount: 'title', 
+                        values: reviewsFilter | reviewCount: 'rating', 
+                        count: reviewsFilter | reviewCount: 'productCount'
+                        }">
+                </app-accordion>   
+
             </div>
             <div class="flex-1" *ngIf="products.totalElement> 0">
                 <div class="flex items-center justify-between py-3 bg-white px-2">

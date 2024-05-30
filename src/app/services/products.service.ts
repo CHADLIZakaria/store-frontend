@@ -2,7 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, Subject, tap } from 'rxjs';
 import { environment } from 'src/environnments/environnment';
-import { RangePriceCount, category } from '../models/category.model';
+import { RangePriceCount, ReviewCount, category } from '../models/category.model';
 import { paginationResponse } from '../models/pagination-response.model';
 import { product } from '../models/product.model';
 import { searchProduct } from '../models/search.model';
@@ -79,6 +79,9 @@ export class ProductsService {
         params = params.set("maxPrice", maxPrice)
       }
     }
+    if(filters.reviews) {
+      params = params.set("review", filters.reviews)
+    }
     if(filters.sort) {
       params = params.set("sort", filters.sort)
     }
@@ -91,6 +94,10 @@ export class ProductsService {
   productCountByRangePrice(): Observable<RangePriceCount[]> {
     return this.http.get<RangePriceCount[]>(environment.apiUrl+'products/prices/count')
   }
+  productCountByReviews(): Observable<ReviewCount[]> {
+    return this.http.get<ReviewCount[]>(environment.apiUrl+'products/reviews/count')
+  }
+
 
 
 
