@@ -40,8 +40,8 @@ export class AuthService {
     return this.http.post<UserLogin>(environment.apiUrl+'login', user).pipe(
       map(
         (res: UserLogin) => {
-          if(res && res.access_token) {
-            const token: string = res.access_token;
+          if(res && res.token) {
+            const token: string = res.token;
             localStorage.setItem("token", token)
             this.autoLogin()
           }

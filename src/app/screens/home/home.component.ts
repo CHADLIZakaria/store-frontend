@@ -132,6 +132,16 @@ export class HomeComponent implements OnInit {
     this.findProducts()
   }
 
+
+  onChangePage(value: {type: string, value: number | null}) {
+    switch(value.type) {
+      case "paginate": this.onPaginate(value.value!); break;
+      case "next": this.onNext(); break;
+      case "prev": this.onPrev(); break;
+    }
+  }
+
+
   onPaginate(page: number) {
     this.filters.page = page
     this.findProducts()
@@ -154,14 +164,12 @@ export class HomeComponent implements OnInit {
   onReset() {
     this.categoryFilter.resetFilters()
     this.priceFilter.resetFilters()    
-    this.reviewFilter.resetFilters()
+    this.reviewFilter.resetFilters()    
     this.filters = {
+      ...this.filters,
       keyword: "",
       categories: "",
       prices: "",
-      size: 9,
-      sort: "",
-      direction: "",
       page: 0,
       reviews: ""
     }
@@ -169,25 +177,10 @@ export class HomeComponent implements OnInit {
     this.findProducts()
   }
 
-
   onChangePageSize($event: any) {
     this.filters.size = $event.target.value
     this.filters.page = 0
     this.findProducts()
-  }
-
-  createPaginateList(currentPage: number, numberPages: number): number[] {
-    const maxShowPages: number=5
-    let res: number[]=[]
-    let start = Math.max(0, currentPage-2)
-    let end = Math.min(numberPages, start+maxShowPages)
-    if(end-start < maxShowPages) {
-      start = Math.max(0, end-maxShowPages) 
-    }
-    for(let i=start; i<end;i++) {
-      res.push(i)
-    }
-    return res;
   }
 
 }

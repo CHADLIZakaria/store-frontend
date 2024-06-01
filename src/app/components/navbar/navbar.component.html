@@ -38,6 +38,7 @@
                 *ngIf="isLogin"
                 (onClickElement)="onClickElement($event)"
                 [title]="user.username"
+                [image]="user.imagePath===''? '/assets/user.png':user.imagePath" 
             ></app-drop-down>
         </div>
     </nav>

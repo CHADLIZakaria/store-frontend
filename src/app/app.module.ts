@@ -32,6 +32,7 @@ import { NotFoundComponent } from './screens/not-found/not-found.component';
 import { DropDownComponent } from './components/drop-down/drop-down.component';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { ReviewCountPipe } from './pipes/review-count.pipe';
+import { PaginationComponent } from './components/pagination/pagination.component';
 
 
 @NgModule({
@@ -60,7 +61,8 @@ import { ReviewCountPipe } from './pipes/review-count.pipe';
     RangePricePipe,
     NotFoundComponent,
     DropDownComponent,
-    ReviewCountPipe
+    ReviewCountPipe,
+    PaginationComponent
   ],
   imports: [
     BrowserModule,

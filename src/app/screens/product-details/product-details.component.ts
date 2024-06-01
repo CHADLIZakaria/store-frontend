@@ -1,11 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Subscription, switchMap } from 'rxjs';
 import { product } from 'src/app/models/product.model';
 import { review } from 'src/app/models/review.model';
+import { user } from 'src/app/models/user.model';
+import { AuthService } from 'src/app/services/auth.service';
 import { ProductsService } from 'src/app/services/products.service';
 import { ReviewService } from 'src/app/services/review.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-product-details',
@@ -19,7 +22,13 @@ export class ProductDetailsComponent implements OnInit {
   reviews: review[] = [];
   reviewForm!: FormGroup;
 
-  constructor(private route: ActivatedRoute, private productService: ProductsService, private reviewService: ReviewService) {
+  constructor(
+    private route: ActivatedRoute, 
+    private productService: ProductsService, 
+    private reviewService: ReviewService, 
+    private authService: AuthService,
+    private userService: UserService
+  ) {
   }
 
   ngOnInit(): void {
@@ -29,8 +38,8 @@ export class ProductDetailsComponent implements OnInit {
       this.loadReviews(id)
     });
     this.reviewForm = new FormGroup({
-      rate: new FormControl(1),
-      review: new FormControl(null)
+      rating: new FormControl(1),
+      description: new FormControl(null)
     })
    
   }
@@ -66,8 +75,20 @@ export class ProductDetailsComponent implements OnInit {
   }
 
   chooseRateStar(rate: number) {
-    this.reviewForm.controls['rate'].setValue(rate)
+    this.reviewForm.controls['rating'].setValue(rate)
   }
 
+
+  addReview() {
+    this.userService.findByUsername(this.authService.userAuthValue?.username!).pipe(
+      switchMap((data: user) => {
+        return this.reviewService.addReview(this.reviewForm.value, this.product!, data)
+      })
+    ).subscribe(
+      response => {
+        this.reviews.push(response)
+      }
+    )
+  }
 
 }

@@ -34,4 +34,8 @@ export class UserService {
   search(filter: searchUser) {
     return this.http.get<paginationResponse>(`${environment.apiUrl}users/test/search?keyword=${filter.keyword}&page=${filter.currentPage}&size=${filter.sizePages}`)
   }
+
+  findByUsername(username: string): Observable<user> {
+    return this.http.get<user>(`${environment.apiUrl}user/${username}`)
+  }
 }

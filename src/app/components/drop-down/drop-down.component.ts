@@ -28,7 +28,6 @@ export class DropDownComponent {
   @Input() title?: string;
   @Input() image?: string;
   @Input() elements?: string[];
-
   toggle() {
     this.isOpen = !this.isOpen
   }
