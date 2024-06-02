@@ -24,15 +24,16 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 })
 export class DropDownComponent {
   isOpen:boolean = false;
-  @Output() onClickElement = new EventEmitter<string>();
+  @Output() onClickElement = new EventEmitter<number>();
   @Input() title?: string;
   @Input() image?: string;
   @Input() elements?: string[];
+
+
   toggle() {
     this.isOpen = !this.isOpen
   }
-
-  onClick(value: string) {
+  onClick(value: number) {
     this.onClickElement.emit(value)
   }
 }

@@ -12,10 +12,12 @@ export interface searchUser {
 }
 
 export interface searchReview {
-    sizePages: number;
-    currentPage: number;
-    keyword: string;
-    idProduct: number | null;
-    username: string;
-    approved: number
+    page?: number;
+    size?: number;
+    keyword?: string;
+    idProduct?: number;
+    username?: string;
+    approved?: boolean;
+    sort?: string;
+    direction?: string
 }

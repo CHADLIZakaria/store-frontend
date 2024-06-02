@@ -2,8 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription, switchMap } from 'rxjs';
+import { paginationResponse } from 'src/app/models/pagination-response.model';
 import { product } from 'src/app/models/product.model';
 import { review } from 'src/app/models/review.model';
+import { searchReview } from 'src/app/models/search.model';
 import { user } from 'src/app/models/user.model';
 import { AuthService } from 'src/app/services/auth.service';
 import { ProductsService } from 'src/app/services/products.service';
@@ -19,8 +21,13 @@ export class ProductDetailsComponent implements OnInit {
 
   product: product | undefined;
   routeSub: Subscription | undefined;
-  reviews: review[] = [];
+  reviews!: paginationResponse;
   reviewForm!: FormGroup;
+  search: searchReview = {
+    sort: 'id',
+    direction: 'desc',
+    idProduct: undefined
+  };
 
   constructor(
     private route: ActivatedRoute, 
@@ -34,8 +41,9 @@ export class ProductDetailsComponent implements OnInit {
   ngOnInit(): void {
     this.routeSub = this.route.params.subscribe(params => {
       let id = params['id']
+      this.search.idProduct=id
       this.loadProductDetail(id)
-      this.loadReviews(id)
+      this.loadReviews()
     });
     this.reviewForm = new FormGroup({
       rating: new FormControl(1),
@@ -50,8 +58,9 @@ export class ProductDetailsComponent implements OnInit {
     })
   }
 
-  loadReviews(id: number) {
-    this.reviewService.findAllByProduct(id).subscribe(data => {
+  loadReviews() {
+    this.reviewService.search(this.search).subscribe(data => {
+      console.log(data)
       this.reviews = data
     })
   }
@@ -60,18 +69,17 @@ export class ProductDetailsComponent implements OnInit {
     return Array(Math.floor(num)).fill(0).map((_, index) => index + 1);
   }
 
-
   getRateReviews(): number {
-    if(this.reviews.length==0) return 0;
+    if(this.reviews.data.length==0) return 0;
     let res = 0;
-    this.reviews?.forEach(review => {
+    this.reviews?.data.forEach(review => {
         res += review.rating
     })
-    return res/this.reviews.length
+    return res/this.reviews.data.length
   }
 
   countNumberRate(rate: number) {
-    return this.reviews.filter(review => review.rating == rate).length
+    return this.reviews.data.filter(review => review.rating == rate).length
   }
 
   chooseRateStar(rate: number) {
@@ -86,9 +94,18 @@ export class ProductDetailsComponent implements OnInit {
       })
     ).subscribe(
       response => {
-        this.reviews.push(response)
+        this.reviews.data.push(response)
       }
     )
+  }
+
+  onChangeSort(value: number) {
+    switch(value) {
+      case 0: this.search.sort='id'; this.search.direction='desc'; break;
+      case 1: this.search.sort='rating'; this.search.direction='desc'; break;
+      case 2: this.search.sort='rating'; this.search.direction='asc'; break;      
+    }
+    this.loadReviews()
   }
 
 }

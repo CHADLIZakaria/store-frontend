@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environnments/environnment';
 import { review } from '../models/review.model';
@@ -19,8 +19,33 @@ export class ReviewService {
     return this.http.get<review[]>(environment.apiUrl+'product/'+idProduct+'/reviews')
   }
 
-  search(filter: searchReview) {
-    return this.http.get<paginationResponse>(`${environment.apiUrl}reviews/search?keyword=${filter.keyword}&page=${filter.currentPage}&size=${filter.sizePages}&idProduct=${filter.idProduct}&username=${filter.username}&approved=${filter.approved}`)
+  search(filters: searchReview) {
+    let params = new HttpParams()
+    if(filters.size) {
+      params = params.set("size", filters.size)
+    }
+    if(filters.page) {
+      params = params.set("page", filters.page)
+    }
+    if(filters.keyword) {
+      params = params.set("keyword", filters.keyword)
+    }
+    if(filters.username) {
+      params = params.set("username", filters.username)
+    }
+    if(filters.idProduct) {
+      params = params.set("idProduct", filters.idProduct)
+    }
+    if(filters.approved) {
+      params = params.set("review", filters.approved)
+    }
+    if(filters.sort) {
+      params = params.set("sort", filters.sort)
+    }
+    if(filters.direction) {
+      params = params.set("direction", filters.direction)
+    }
+    return this.http.get<paginationResponse>(`${environment.apiUrl}reviews/search`, {params})
   }
 
   addReview(formValue: {rating: number, description: string}, product: product, user: user): Observable<review> {

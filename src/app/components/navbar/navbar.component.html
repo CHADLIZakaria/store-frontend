@@ -39,6 +39,7 @@
                 (onClickElement)="onClickElement($event)"
                 [title]="user.username"
                 [image]="user.imagePath===''? '/assets/user.png':user.imagePath" 
+                [elements]="['Settings', 'Favorites', 'Logout']"
             ></app-drop-down>
         </div>
     </nav>

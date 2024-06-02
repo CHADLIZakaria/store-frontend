@@ -18,12 +18,12 @@ export class ReviewsComponent implements OnInit {
   products!: product[];
   users!: user[];
   filter: searchReview = {
-    sizePages: 5,
-    currentPage: 0,
+    size: 5,
+    page: 0,
     keyword: "",
     idProduct: -1,
     username: "",
-    approved: -1
+    approved: undefined
   }
   constructor(private reviewsService: ReviewService, private productsService: ProductsService, private usersService: UserService) {
   }
@@ -55,7 +55,7 @@ export class ReviewsComponent implements OnInit {
 
   onChangeKeyword($event: any) {
     this.filter.keyword = $event.target.value
-    this.filter.currentPage = 0
+    this.filter.page = 0
     this.getReviews()
   }
 
@@ -63,27 +63,27 @@ export class ReviewsComponent implements OnInit {
   }
 
   onPaginate(page: number) {
-    this.filter.currentPage = page
+    this.filter.page = page
     this.getReviews()
   }
 
   onNext() {
     if(this.reviews.currentPage !== this.reviews.totalPages-1) {
-      ++this.filter.currentPage; 
+      ++this.filter.page!; 
       this.getReviews()
     }
   }
 
   onPrev() {
     if(this.reviews.currentPage !== 0) {
-      --this.filter.currentPage; 
+      --this.filter.page!; 
       this.getReviews()
     }
   }
 
   onChangePageSize($event: any) {
-    this.filter.sizePages = $event.target.value
-    this.filter.currentPage = 0
+    this.filter.size = $event.target.value
+    this.filter.page = 0
     this.getReviews()
   }
 

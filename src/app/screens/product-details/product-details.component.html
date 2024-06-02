@@ -50,40 +50,35 @@
                     </svg>
                   </div>
                   <!-- stars - end -->
-
                   <span class="text-sm font-semibold">{{getRateReviews()}}/5</span>
               </div>
-
-              <span class="block text-gray-500 text-sm">Bases on {{reviews.length}} reviews</span>
-
+              <span class="block text-gray-500 text-sm">Bases on {{reviews.data.length}} reviews</span>
               <div class="flex flex-col border-t gap-2 py-5 my-5">
                   <!-- star - start -->
                   <div class="flex items-center gap-3">
                     <span class="w-10 text-gray-600 text-sm text-right whitespace-nowrap">5 Star</span>
                     <div class="h-4 flex flex-1 bg-gray-200 overflow-hidden rounded gap-1 items-center">
-                        <span [style]="{'width': countNumberRate(5)/reviews.length*100+'%'}" class="h-full bg-yellow-400 rounded relative flex items-center">
+                        <span [style]="{'width': countNumberRate(5)/reviews.data.length*100+'%'}" class="h-full bg-yellow-400 rounded relative flex items-center">
                           <span class="absolute right-1">{{countNumberRate(5)}}</span>
                         </span>                      
                     </div>
                   </div>
                   <!-- star - end -->
-
                   <!-- star - start -->
                   <div class="flex items-center gap-3">
                     <span class="w-10 text-gray-600 text-sm text-right whitespace-nowrap">4 Star</span>
                     <div class="h-4 flex flex-1 bg-gray-200 overflow-hidden rounded gap-1 items-center">
-                        <span [style]="{'width': countNumberRate(4)/reviews.length*100+'%'}" class="h-full bg-yellow-400 rounded relative flex items-center">
+                        <span [style]="{'width': countNumberRate(4)/reviews.data.length*100+'%'}" class="h-full bg-yellow-400 rounded relative flex items-center">
                           <span class="absolute right-1">{{countNumberRate(4)}}</span>
                         </span>
                     </div>
                   </div>
                   <!-- star - end -->
-
                   <!-- star - start -->
                   <div class="flex items-center gap-3">
                     <span class="w-10 text-gray-600 text-sm text-right whitespace-nowrap">3 Star</span>
                     <div class="h-4 flex flex-1 bg-gray-200 overflow-hidden rounded gap-1 items-center">
-                        <span [style]="{'width': countNumberRate(3)/reviews.length*100+'%'}" class="h-full bg-yellow-400 rounded relative flex items-center">
+                        <span [style]="{'width': countNumberRate(3)/reviews.data.length*100+'%'}" class="h-full bg-yellow-400 rounded relative flex items-center">
                           <span class="absolute right-1">{{countNumberRate(3)}}</span>
                         </span>
                     </div>
@@ -94,7 +89,7 @@
                   <div class="flex items-center gap-3">
                     <span class="w-10 text-gray-600 text-sm text-right whitespace-nowrap">2 Star</span>
                     <div class="h-4 flex flex-1 bg-gray-200 overflow-hidden rounded gap-1 items-center">
-                        <span [style]="{'width': countNumberRate(2)/reviews.length*100+'%'}" class="h-full bg-yellow-400 rounded relative flex items-center">
+                        <span [style]="{'width': countNumberRate(2)/reviews.data.length*100+'%'}" class="h-full bg-yellow-400 rounded relative flex items-center">
                           <span class="absolute right-1">{{countNumberRate(2)}}</span>
                         </span>
                     </div>
@@ -105,7 +100,7 @@
                   <div class="flex items-center gap-3">
                     <span class="w-10 text-gray-600 text-sm text-right whitespace-nowrap">1 Star</span>
                     <div class="h-4 flex flex-1 bg-gray-200 overflow-hidden rounded gap-1 items-center">
-                        <span [style]="{'width': countNumberRate(1)/reviews.length*100+'%'}" class="h-full bg-yellow-400 rounded relative flex items-center">
+                        <span [style]="{'width': countNumberRate(1)/reviews.data.length*100+'%'}" class="h-full bg-yellow-400 rounded relative flex items-center">
                           <span class="absolute right-1">{{countNumberRate(1)}}</span>
                         </span>
                     </div>
@@ -148,13 +143,18 @@
           <!-- write review - end -->
           <!-- reviews - start -->
           <div class="lg:col-span-2 border rounded-lg p-4 bg-white">
-              <div class="border-b pb-4 md:pb-6">
+              <div class="border-b pb-4 md:pb-6 flex justify-between">
                 <h2 class="text-gray-800 text-lg lg:text-xl font-bold">Top Reviews</h2>
-              </div>
-  
+                <app-drop-down
+                  title='Sort By'
+                  [elements]="['Newest', 'Rating: High to Low', 'Rating: Low to High']"
+                  (onClickElement)="onChangeSort($event)"
+                  >
+                </app-drop-down>
+              </div>  
               <div class="divide-y">
               <!-- review - start -->
-              <div class="flex flex-col gap-3 py-4 md:py-8" *ngFor="let review of reviews">
+              <div class="flex flex-col gap-3 py-4 md:py-8" *ngFor="let review of reviews.data">
                 <div class="flex justify-between">
                   <div class="flex items-center gap-2">
                     <img class="w-10 h-10" [src]="review.user.imagePath==='' ? '/assets/user.png' : review.user.imagePath" alt="Rounded avatar">
@@ -179,10 +179,6 @@
                   <p class="text-gray-600">{{review.description}}</p>
               </div>
               <!-- review - end -->
-              </div>
-  
-              <div class="border-t pt-6">
-              <a href="#" class="flex items-center text-indigo-400 hover:text-indigo-500 active:text-indigo-600 font-semibold transition duration-100 gap-0.5">Read all reviews</a>
               </div>
           </div>
           <!-- reviews - end -->

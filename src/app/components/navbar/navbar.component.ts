@@ -57,8 +57,8 @@ export class NavbarComponent implements OnInit {
     this.authService.logout()
   }
 
-  onClickElement(value: string) {
-    if(value==='logout') {
+  onClickElement(value: number) {
+    if(value===2) {
       this.authService.logout()
     }
   }
