@@ -58,7 +58,7 @@ export class ProductsService {
     return this.http.get<product>(environment.apiUrl+'product/'+id)
   }
 
-  search(filters: any): Observable<paginationResponse> {
+  search(filters: any, username?: string): Observable<paginationResponse> {
     let params = new HttpParams()
     if(filters.size) {
       params = params.set("size", filters.size)
@@ -87,6 +87,9 @@ export class ProductsService {
     }
     if(filters.direction) {
       params = params.set("direction", filters.direction)
+    }
+    if(username) {
+      return this.http.get<paginationResponse>(`${environment.apiUrl}products/favorite/${username}`, {params})
     }
     return this.http.get<paginationResponse>(environment.apiUrl+'products/search', {params})
   }

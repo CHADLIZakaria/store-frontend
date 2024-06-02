@@ -4,6 +4,7 @@ import { AccordionComponent } from 'src/app/components/accordion/accordion.compo
 import { CategoryCount, RangePriceCount, ReviewCount, category } from 'src/app/models/category.model';
 import { paginationResponse } from 'src/app/models/pagination-response.model';
 import { product } from 'src/app/models/product.model';
+import { AuthService } from 'src/app/services/auth.service';
 import { CategoryService } from 'src/app/services/category.service';
 import { HomeService } from 'src/app/services/home.service';
 import { ProductsService } from 'src/app/services/products.service';
@@ -36,8 +37,13 @@ export class HomeComponent implements OnInit {
   @ViewChild("reviewFilter") reviewFilter!: AccordionComponent;
   
   keyword!: FormControl;
+  username?: string;
 
-  constructor(private categoryService: CategoryService, private productsService: ProductsService) {
+  constructor(
+    private categoryService: CategoryService, 
+    private productsService: ProductsService,
+    private authService: AuthService
+  ) {
     this.keyword = new FormControl(null);
   }
 
@@ -73,7 +79,11 @@ export class HomeComponent implements OnInit {
         this.reviewsFilter = data
       }
     )
-
+    
+    if(this.authService.isAuth) {
+      this.username = this.authService.userAuthValue?.username;
+    }
+   
     this.keyword.valueChanges.subscribe(value => {
       this.filters.keyword = value
       this.filters.page=0
@@ -83,7 +93,7 @@ export class HomeComponent implements OnInit {
   }
 
   findProducts() {
-    this.productsService.search(this.filters).subscribe(
+    this.productsService.search(this.filters, this.username).subscribe(
       data => {
         this.products = data
       }
