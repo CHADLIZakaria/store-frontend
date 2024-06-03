@@ -5,9 +5,7 @@ import { CategoryCount, RangePriceCount, ReviewCount, category } from 'src/app/m
 import { paginationResponse } from 'src/app/models/pagination-response.model';
 import { product } from 'src/app/models/product.model';
 import { AuthService } from 'src/app/services/auth.service';
-import { AuthService } from 'src/app/services/auth.service';
 import { CategoryService } from 'src/app/services/category.service';
-import { HomeService } from 'src/app/services/home.service';
 import { ProductsService } from 'src/app/services/products.service';
 
 @Component({
@@ -90,7 +88,7 @@ export class HomeComponent implements OnInit {
   }
 
   findProducts() {
-    this.productsService.search(this.filters, this.username).subscribe(
+    this.productsService.search(this.filters).subscribe(
       data => {
         this.products = data
       }
