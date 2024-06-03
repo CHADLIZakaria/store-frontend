@@ -8,4 +8,5 @@ export interface product {
     imagePath: number;
     image: string;
     category: category;
+    inFavorites: boolean;
 }

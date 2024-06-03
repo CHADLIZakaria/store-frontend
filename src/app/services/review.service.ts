@@ -45,7 +45,7 @@ export class ReviewService {
     if(filters.direction) {
       params = params.set("direction", filters.direction)
     }
-    return this.http.get<paginationResponse>(`${environment.apiUrl}reviews/search`, {params})
+    return this.http.get<paginationResponse<review>>(`${environment.apiUrl}reviews/search`, {params})
   }
 
   addReview(formValue: {rating: number, description: string}, product: product, user: user): Observable<review> {

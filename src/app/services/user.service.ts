@@ -32,7 +32,7 @@ export class UserService {
   }
   
   search(filter: searchUser) {
-    return this.http.get<paginationResponse>(`${environment.apiUrl}users/test/search?keyword=${filter.keyword}&page=${filter.currentPage}&size=${filter.sizePages}`)
+    return this.http.get<paginationResponse<user>>(`${environment.apiUrl}users/test/search?keyword=${filter.keyword}&page=${filter.currentPage}&size=${filter.sizePages}`)
   }
 
   findByUsername(username: string): Observable<user> {

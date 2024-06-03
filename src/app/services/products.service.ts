@@ -6,17 +6,18 @@ import { RangePriceCount, ReviewCount, category } from '../models/category.model
 import { paginationResponse } from '../models/pagination-response.model';
 import { product } from '../models/product.model';
 import { searchProduct } from '../models/search.model';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductsService {
 
-  productsChanged = new Subject<paginationResponse>
-  products!: paginationResponse
+  productsChanged = new Subject<paginationResponse<product>>
+  products!: paginationResponse<product>
 
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private authService: AuthService) { }
 
   save(product: product, category: category) {
     let formData = new FormData()
@@ -35,16 +36,6 @@ export class ProductsService {
     return this.http.get<product[]>(environment.apiUrl+'products?idsCategory='+ids)
   }
 
-  search1(search: searchProduct): Observable<paginationResponse> {
-    return this.http.get<paginationResponse>(environment.apiUrl+`products/search?page=${search.currentPage}&size=${search.sizePages}&idsCategory=${search.idsCategory}&keyword=${search.keyword}`).pipe(
-      tap(
-        data => {
-          this.products = data
-          this.productsChanged.next(this.products)
-        })
-    )
-  }
-
   delete(id: number) {
     return this.http.delete(environment.apiUrl+'product/'+id).pipe(
       tap(data => {
@@ -58,7 +49,7 @@ export class ProductsService {
     return this.http.get<product>(environment.apiUrl+'product/'+id)
   }
 
-  search(filters: any): Observable<paginationResponse> {
+  search(filters: any): Observable<paginationResponse<product>> {
     let params = new HttpParams()
     if(filters.size) {
       params = params.set("size", filters.size)
@@ -88,7 +79,14 @@ export class ProductsService {
     if(filters.direction) {
       params = params.set("direction", filters.direction)
     }
-    return this.http.get<paginationResponse>(environment.apiUrl+'products/search', {params})
+    if(filters.id) {
+      params = params.set("id", filters.id)
+    }
+    if(this.authService.isAuth) {
+      params = params.set("user", this.authService.userAuthValue?.username!)
+    }
+    return this.http.get<paginationResponse<product>>(environment.apiUrl+'products/search', {params})
+    
   }
 
   productCountByRangePrice(): Observable<RangePriceCount[]> {
@@ -98,6 +96,12 @@ export class ProductsService {
     return this.http.get<ReviewCount[]>(environment.apiUrl+'products/reviews/count')
   }
 
+  addFavorite(username: string, idProduct: number): Observable<void> {
+    return this.http.get<void>(`${environment.apiUrl}favorite/add/${username}/${idProduct}`)
+  }
+  removeFavorite(username: string, idProduct: number): Observable<void> {
+    return this.http.get<void>(`${environment.apiUrl}favorite/remove/${username}/${idProduct}`)
+  }
 
 
 

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { category } from 'src/app/models/category.model';
 import { paginationResponse } from 'src/app/models/pagination-response.model';
+import { product } from 'src/app/models/product.model';
 import { searchProduct } from 'src/app/models/search.model';
 import { CategoryService } from 'src/app/services/category.service';
 import { ProductsService } from 'src/app/services/products.service';
@@ -12,7 +13,7 @@ import { ProductsService } from 'src/app/services/products.service';
 })
 export class ProductsComponent implements OnInit {
 
-  products!: paginationResponse;
+  products!: paginationResponse<product>;
   showPopupDeleteProduct: boolean=false;
   categories!: category[];
   categoriesSelected: category[]= []
@@ -34,7 +35,7 @@ export class ProductsComponent implements OnInit {
       }
     )
 
-    this.productsService.productsChanged.subscribe((products: paginationResponse) => {
+    this.productsService.productsChanged.subscribe((products: paginationResponse<product>) => {
         this.products = products
       }
     )

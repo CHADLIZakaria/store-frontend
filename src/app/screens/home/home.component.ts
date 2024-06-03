@@ -4,6 +4,7 @@ import { AccordionComponent } from 'src/app/components/accordion/accordion.compo
 import { CategoryCount, RangePriceCount, ReviewCount, category } from 'src/app/models/category.model';
 import { paginationResponse } from 'src/app/models/pagination-response.model';
 import { product } from 'src/app/models/product.model';
+import { AuthService } from 'src/app/services/auth.service';
 import { CategoryService } from 'src/app/services/category.service';
 import { HomeService } from 'src/app/services/home.service';
 import { ProductsService } from 'src/app/services/products.service';
@@ -19,7 +20,7 @@ export class HomeComponent implements OnInit {
   pricesFilter!: RangePriceCount[];
   reviewsFilter!: ReviewCount[];
   
-  products!: paginationResponse;
+  products!: paginationResponse<product>;
   currentIndexCategory: number=0;
   filters = {
     keyword: "",
@@ -37,7 +38,7 @@ export class HomeComponent implements OnInit {
   
   keyword!: FormControl;
 
-  constructor(private categoryService: CategoryService, private productsService: ProductsService) {
+  constructor(private categoryService: CategoryService, private productsService: ProductsService, public authService: AuthService) {
     this.keyword = new FormControl(null);
   }
 
@@ -181,6 +182,43 @@ export class HomeComponent implements OnInit {
     this.filters.size = $event.target.value
     this.filters.page = 0
     this.findProducts()
+  }
+
+  toggleFavorite(status: string, idProduct: number) {
+    if(this.authService.isAuth) {
+      const username = this.authService.userAuthValue?.username!
+      if(status==='add') {
+        this.productsService.addFavorite(username, idProduct).subscribe(
+          data => {
+            this.products.data.map(product => {
+              if(product.id !== idProduct) {
+                return product; 
+              }
+              else {
+                product.inFavorites = true;
+                return product;
+              } 
+            })
+          }
+        )
+      }
+      else if(status==='remove') {
+        this.productsService.removeFavorite(username, idProduct).subscribe(
+          data => {
+            this.products.data.map(product => {
+              if(product.id !== idProduct) {
+                return product; 
+              }
+              else {
+                product.inFavorites = false;
+                return product;
+              } 
+            })
+          }
+  
+        )
+      }
+    }
   }
 
 }

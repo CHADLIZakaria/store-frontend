@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { category } from 'src/app/models/category.model';
 import { paginationResponse } from 'src/app/models/pagination-response.model';
 import { searchUser } from 'src/app/models/search.model';
+import { user } from 'src/app/models/user.model';
 import { UserService } from 'src/app/services/user.service';
 
 @Component({
@@ -10,7 +11,7 @@ import { UserService } from 'src/app/services/user.service';
   styleUrls: ['./users.component.css']
 })
 export class UsersComponent {
-  users!: paginationResponse;
+  users!: paginationResponse<user>;
   showPopupDeleteProduct: boolean=false;
   categories!: category[];
   categoriesSelected: category[]= []

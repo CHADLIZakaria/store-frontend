@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { paginationResponse } from 'src/app/models/pagination-response.model';
 import { product } from 'src/app/models/product.model';
+import { review } from 'src/app/models/review.model';
 import { searchReview } from 'src/app/models/search.model';
 import { user } from 'src/app/models/user.model';
 import { ProductsService } from 'src/app/services/products.service';
@@ -14,7 +15,7 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class ReviewsComponent implements OnInit {
 
-  reviews!: paginationResponse;
+  reviews!: paginationResponse<review>;
   products!: product[];
   users!: user[];
   filter: searchReview = {

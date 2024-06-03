@@ -131,7 +131,7 @@
                             <span class="text-sm font-medium">{{ review.createdAt | date: 'yyyy-MM-dd hh:mm:ss'}}</span>
                         </td>
                         <td class="text-center">
-                            <span class="bg-green-100 text-green-800 text-md font-medium me-2 px-2.5 py-0.5 rounded-md">{{review.approved ? 'Active': 'Inactive'}}</span>
+                            <span class="bg-green-100 text-green-800 text-md font-medium me-2 px-2.5 py-0.5 rounded-md">{{review.isApproved ? 'Active': 'Inactive'}}</span>
                         </td>
                         <td class="py-3 px-6 text-center whitespace-nowrap">
                             <div class="flex item-center justify-center">

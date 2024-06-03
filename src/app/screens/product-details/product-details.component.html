@@ -22,12 +22,50 @@
             <p class="flex justify-center items-center text-md leading-7 text-gray-500">
               {{product.description}}
             </p>
-              <!-- description - end -->
+            <!-- description - end -->
           </div>
           <!-- price - start -->
           <div class="">
-            <div class="flex items-center  justify-between gap-2">
+            <div class="flex items-end flex-col  justify-between gap-y-5">
               <span class="text-gray-800 text-xl md:text-2xl font-bold">{{product.price}} $</span>               
+              <div class="flex gap-x-1 w-full">
+                <button class="bg-gray-700 flex items-center gap-x-2 rounded-md font-bold px-4 py-2 text-white flex-1 justify-center ">
+                  Add To Cart
+                   <svg xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" viewBox="0 0 24 24">
+                    <g fill="none" stroke="currentColor" stroke-width="1.5">
+                      <path stroke-linecap="round" d="M3.864 16.455c.546 2.183.819 3.274 1.632 3.91C6.31 21 7.435 21 9.685 21h4.63c2.25 0 3.375 0 4.19-.635c.813-.636 1.086-1.727 1.631-3.91c.858-3.432 1.287-5.147.387-6.301C19.622 9 17.853 9 14.316 9H9.685c-3.538 0-5.306 0-6.207 1.154c-.529.677-.6 1.548-.394 2.846" />
+                      <path d="m19.5 9.5l-.71-2.605c-.274-1.005-.411-1.507-.692-1.886A2.5 2.5 0 0 0 17 4.172C16.56 4 16.04 4 15 4M4.5 9.5l.71-2.605c.274-1.005.411-1.507.692-1.886A2.5 2.5 0 0 1 7 4.172C7.44 4 7.96 4 9 4" />
+                      <path d="M9 4a1 1 0 0 1 1-1h4a1 1 0 1 1 0 2h-4a1 1 0 0 1-1-1Z" />
+                    </g>
+                  </svg>
+                </button>
+                <button 
+                  [ngClass]="{'cursor-pointer': authService.isAuth}" 
+                  (click)="toggleFavorite('add', product.id)" 
+                  *ngIf="!product.inFavorites"
+                  class="text-gray-700 font-bold px-4 py-2 text-gray-700 rounded-md border border-gray-700">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg" 
+                    width="25px" 
+                    height="25px" 
+                    viewBox="0 0 24 24">
+                    <path fill="currentColor" d="m12.1 18.55l-.1.1l-.11-.1C7.14 14.24 4 11.39 4 8.5C4 6.5 5.5 5 7.5 5c1.54 0 3.04 1 3.57 2.36h1.86C13.46 6 14.96 5 16.5 5c2 0 3.5 1.5 3.5 3.5c0 2.89-3.14 5.74-7.9 10.05M16.5 3c-1.74 0-3.41.81-4.5 2.08C10.91 3.81 9.24 3 7.5 3C4.42 3 2 5.41 2 8.5c0 3.77 3.4 6.86 8.55 11.53L12 21.35l1.45-1.32C18.6 15.36 22 12.27 22 8.5C22 5.41 19.58 3 16.5 3"/>
+                  </svg>
+                </button>
+                <button 
+                  [ngClass]="{'cursor-pointer': authService.isAuth}" 
+                  (click)="toggleFavorite('remove', product.id)" 
+                  *ngIf="product.inFavorites"
+                  class="text-gray-700 font-bold px-4 py-2 text-gray-700 rounded-md border border-gray-700">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg" 
+                    width="25px" 
+                    height="25px" 
+                    viewBox="0 0 24 24">
+                    <path fill="currentColor" d="m12 21.35l-1.45-1.32C5.4 15.36 2 12.27 2 8.5C2 5.41 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.08C13.09 3.81 14.76 3 16.5 3C19.58 3 22 5.41 22 8.5c0 3.77-3.4 6.86-8.55 11.53z"/>
+                  </svg>
+                </button>
+              </div>
             </div>
           </div>
           <!-- price - end -->
@@ -38,8 +76,9 @@
         <!-- overview - start -->
         <div>
             <div class="border bg-white rounded-lg p-4">
-              <h2 class="text-gray-800 text-lg lg:text-xl font-bold mb-3">Customer Reviews</h2>
-              <div class="flex items-center gap-2 mb-0.5">
+              <h2 class="text-gray-800 text-lg lg:text-xl font-bold">Customer Reviews</h2>
+              <span class="block text-gray-500 text-sm my-1.5">Bases on {{reviews.data.length}} reviews</span>
+              <div class="flex items-center gap-2">
                   <!-- stars - start -->
                   <div class="flex gap-0.5 -ml-1">
                     <svg *ngFor="let i of getNumberArray(getRateReviews())" xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
@@ -52,7 +91,6 @@
                   <!-- stars - end -->
                   <span class="text-sm font-semibold">{{getRateReviews()}}/5</span>
               </div>
-              <span class="block text-gray-500 text-sm">Bases on {{reviews.data.length}} reviews</span>
               <div class="flex flex-col border-t gap-2 py-5 my-5">
                   <!-- star - start -->
                   <div class="flex items-center gap-3">
@@ -142,48 +180,52 @@
           </form>
           <!-- write review - end -->
           <!-- reviews - start -->
-          <div class="lg:col-span-2 border rounded-lg p-4 bg-white">
-              <div class="border-b pb-4 md:pb-6 flex justify-between">
-                <h2 class="text-gray-800 text-lg lg:text-xl font-bold">Top Reviews</h2>
-                <app-drop-down
-                  title='Sort By'
-                  [elements]="['Newest', 'Rating: High to Low', 'Rating: Low to High']"
-                  (onClickElement)="onChangeSort($event)"
-                  >
-                </app-drop-down>
-              </div>  
-              <div class="divide-y">
-              <!-- review - start -->
-              <div class="flex flex-col gap-3 py-4 md:py-8" *ngFor="let review of reviews.data">
-                <div class="flex justify-between">
-                  <div class="flex items-center gap-2">
-                    <img class="w-10 h-10" [src]="review.user.imagePath==='' ? '/assets/user.png' : review.user.imagePath" alt="Rounded avatar">
-                    <span class="block text-sm font-bold">{{review.user.username}}</span>
-                  </div>
-                  <div>                 
-                    <span class="block text-gray-500 text-sm">{{review.createdAt | date: 'MM/dd/yyyy h:mm a'}}</span>
-                  </div>
-                </div>
-                  <!-- stars - start -->
-                  <div class="flex gap-0.5 -ml-1">
-                    <svg *ngFor="let rating of getNumberArray(review.rating)"  xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
-                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                    </svg>
-  
-                    <svg *ngFor="let rating of getNumberArray(5-review.rating)" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-300" viewBox="0 0 20 20" fill="currentColor">
-                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                    </svg>
-                    
-                  </div>
-                  <!-- stars - end -->
-                  <p class="text-gray-600">{{review.description}}</p>
-              </div>
-              <!-- review - end -->
-              </div>
+          <div class="lg:col-span-2 border rounded-lg p-4 bg-white" *ngIf="reviews.data.length===0; else users_reviews">
+            <p  class="text-gray-500">There is no review yet, Add the first one</p>
           </div>
+          <ng-template #users_reviews>
+            <div class="lg:col-span-2 border rounded-lg p-4 bg-white">
+                <div class="border-b pb-4 md:pb-6 flex justify-between">
+                  <h2 class="text-gray-800 text-lg lg:text-xl font-bold">Top Reviews</h2>
+                  <app-drop-down
+                    title='Sort By'
+                    [elements]="['Newest', 'Rating: High to Low', 'Rating: Low to High']"
+                    (onClickElement)="onChangeSort($event)"
+                    >
+                  </app-drop-down>
+                </div>  
+                <div class="divide-y">
+                <!-- review - start -->             
+                  <div class="flex flex-col gap-3 py-4 md:py-8" *ngFor="let review of reviews.data">
+                    <div class="flex justify-between">
+                      <div class="flex items-center gap-2">
+                        <img class="w-10 h-10" [src]="review.user.imagePath==='' ? '/assets/user.png' : review.user.imagePath" alt="Rounded avatar">
+                        <span class="block text-sm font-bold">{{review.user.username}}</span>
+                      </div>
+                      <div>                 
+                        <span class="block text-gray-500 text-sm">{{review.createdAt | date: 'MM/dd/yyyy h:mm a'}}</span>
+                      </div>
+                    </div>
+                      <!-- stars - start -->
+                      <div class="flex gap-0.5 -ml-1">
+                        <svg *ngFor="let rating of getNumberArray(review.rating)"  xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                        </svg>
+      
+                        <svg *ngFor="let rating of getNumberArray(5-review.rating)" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-300" viewBox="0 0 20 20" fill="currentColor">
+                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                        </svg>
+                        
+                      </div>
+                      <!-- stars - end -->
+                      <p class="text-gray-600">{{review.description}}</p>
+                  </div>
+                <!-- review - end -->
+                </div>
+            </div>          
+          </ng-template>
           <!-- reviews - end -->
         </div>
-       
-        </div>
-    </div>
+      </div>
+  </div>
 </div>

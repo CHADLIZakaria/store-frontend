@@ -1,7 +1,7 @@
-export interface paginationResponse {
+export interface paginationResponse<T> {
     totalElement: number;
     sizePages: number;
     currentPage: number;
     totalPages: number;
-    data: any[];
+    data: T[];
 }

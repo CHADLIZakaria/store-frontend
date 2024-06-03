@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription, switchMap } from 'rxjs';
 import { paginationResponse } from 'src/app/models/pagination-response.model';
 import { product } from 'src/app/models/product.model';
@@ -21,7 +21,7 @@ export class ProductDetailsComponent implements OnInit {
 
   product: product | undefined;
   routeSub: Subscription | undefined;
-  reviews!: paginationResponse;
+  reviews!: paginationResponse<review>;
   reviewForm!: FormGroup;
   search: searchReview = {
     sort: 'id',
@@ -31,10 +31,11 @@ export class ProductDetailsComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute, 
-    private productService: ProductsService, 
+    private productsService: ProductsService, 
     private reviewService: ReviewService, 
-    private authService: AuthService,
-    private userService: UserService
+    public authService: AuthService,
+    private userService: UserService,
+    private router: Router
   ) {
   }
 
@@ -48,13 +49,18 @@ export class ProductDetailsComponent implements OnInit {
     this.reviewForm = new FormGroup({
       rating: new FormControl(1),
       description: new FormControl(null)
-    })
-   
+    })   
   }
 
   loadProductDetail(id: number) {
-    this.productService.findById(id).subscribe(data => {
-      this.product = data
+    this.productsService.search({id: id}).subscribe(data => {
+      if(data.totalElement===1) {
+        console.log(data)
+        this.product = data.data[0]
+      }
+      else {
+        this.router.navigate(['/404'])
+      }
     })
   }
 
@@ -106,6 +112,25 @@ export class ProductDetailsComponent implements OnInit {
       case 2: this.search.sort='rating'; this.search.direction='asc'; break;      
     }
     this.loadReviews()
+  }
+
+  toggleFavorite(status: string, idProduct: number) {
+    if(this.authService.isAuth) {
+      const username = this.authService.userAuthValue?.username!
+      if(status==='add') {
+        this.productsService.addFavorite(username, idProduct).subscribe({
+          next: (data) => {
+            this.product!.inFavorites = true
+          }
+      })}
+      else if(status==='remove') {
+        this.productsService.removeFavorite(username, idProduct).subscribe({
+            next: (data) => {
+              this.product!.inFavorites = false
+            }
+        })
+      }
+    }
   }
 
 }
