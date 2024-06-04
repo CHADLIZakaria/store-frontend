@@ -188,41 +188,4 @@ export class HomeComponent implements OnInit {
     this.findProducts()
   }
 
-  toggleFavorite(status: string, idProduct: number) {
-    if(this.authService.isAuth) {
-      const username = this.authService.userAuthValue?.username!
-      if(status==='add') {
-        this.productsService.addFavorite(username, idProduct).subscribe(
-          data => {
-            this.products.data.map(product => {
-              if(product.id !== idProduct) {
-                return product; 
-              }
-              else {
-                product.inFavorites = true;
-                return product;
-              } 
-            })
-          }
-        )
-      }
-      else if(status==='remove') {
-        this.productsService.removeFavorite(username, idProduct).subscribe(
-          data => {
-            this.products.data.map(product => {
-              if(product.id !== idProduct) {
-                return product; 
-              }
-              else {
-                product.inFavorites = false;
-                return product;
-              } 
-            })
-          }
-  
-        )
-      }
-    }
-  }
-
 }

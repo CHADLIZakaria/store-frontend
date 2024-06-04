@@ -31,7 +31,6 @@ export class NavbarComponent implements OnInit {
     })
   }
 
-
   ngOnInit(): void {
     this.authService.user.subscribe(user => {
       this.isLogin = this.authService.isAuth
@@ -58,6 +57,9 @@ export class NavbarComponent implements OnInit {
   }
 
   onClickElement(value: number) {
+    if(value===1)  {
+      this.router.navigate(['/favorites'])
+    }
     if(value===2) {
       this.authService.logout()
     }

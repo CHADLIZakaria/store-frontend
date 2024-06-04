@@ -85,8 +85,11 @@ export class ProductsService {
     if(this.authService.isAuth) {
       params = params.set("user", this.authService.userAuthValue?.username!)
     }
-    return this.http.get<paginationResponse<product>>(environment.apiUrl+'products/search', {params})
-    
+    return this.http.get<paginationResponse<product>>(environment.apiUrl+'products/search', {params})    
+  }
+
+  favoriteProducts(username: string): Observable<product[]> {
+    return this.http.get<product[]>(`${environment.apiUrl}products/${username}/favorites`)
   }
 
   productCountByRangePrice(): Observable<RangePriceCount[]> {

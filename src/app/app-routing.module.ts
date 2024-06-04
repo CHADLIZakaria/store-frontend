@@ -12,12 +12,32 @@ import { UsersComponent } from './screens/users/users.component';
 import { ReviewsComponent } from './screens/reviews/reviews.component';
 import { NotFoundComponent } from './screens/not-found/not-found.component';
 import { AdminGuard } from './guards/admin.guard';
+import { FavoritesComponent } from './screens/favorites/favorites.component';
 
 const routes: Routes = [
-  {component: HomeComponent, path: ''},
+  {
+    path: '',
+    data: { breadcrumb: 'Home'},
+    children: [
+      {
+        path: '',
+        pathMatch: 'full',
+        component: HomeComponent, 
+      },
+      {
+        path: 'favorites',
+        component: FavoritesComponent, 
+        data: { breadcrumb: 'Favorites'},
+      },
+      {
+        component: ProductDetailsComponent, 
+        path: 'product/:id',
+        data: { breadcrumb: 'Details'},
+      },  
+    ]
+  },
   {component: SigninComponent, path: 'login'},
   {component: SignupComponent, path: 'signup'},
-  {component: ProductDetailsComponent, path: 'product/:id'},
   { path: 'admin', 
     canActivate: [AdminGuard],
     children: [

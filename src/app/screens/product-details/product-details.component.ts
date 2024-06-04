@@ -55,7 +55,6 @@ export class ProductDetailsComponent implements OnInit {
   loadProductDetail(id: number) {
     this.productsService.search({id: id}).subscribe(data => {
       if(data.totalElement===1) {
-        console.log(data)
         this.product = data.data[0]
       }
       else {
@@ -66,7 +65,6 @@ export class ProductDetailsComponent implements OnInit {
 
   loadReviews() {
     this.reviewService.search(this.search).subscribe(data => {
-      console.log(data)
       this.reviews = data
     })
   }

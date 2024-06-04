@@ -33,7 +33,9 @@ import { DropDownComponent } from './components/drop-down/drop-down.component';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { ReviewCountPipe } from './pipes/review-count.pipe';
 import { PaginationComponent } from './components/pagination/pagination.component';
-
+import { ListProductsComponent } from './shared/components/list-products/list-products.component';
+import { FavoritesComponent } from './screens/favorites/favorites.component';
+import { BreadcrumbComponent } from './shared/components/breadcrumb/breadcrumb.component';
 
 @NgModule({
   declarations: [
@@ -62,7 +64,10 @@ import { PaginationComponent } from './components/pagination/pagination.componen
     NotFoundComponent,
     DropDownComponent,
     ReviewCountPipe,
-    PaginationComponent
+    PaginationComponent,
+    ListProductsComponent,
+    FavoritesComponent,
+    BreadcrumbComponent
   ],
   imports: [
     BrowserModule,
