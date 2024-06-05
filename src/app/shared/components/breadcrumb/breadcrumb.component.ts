@@ -1,20 +1,15 @@
-import { Component, OnInit } from '@angular/core';
-import { BreadcrumbService } from 'src/app/services/breadcrumb.service';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-breadcrumb',
   templateUrl: './breadcrumb.component.html',
   styleUrls: ['./breadcrumb.component.css']
 })
-export class BreadcrumbComponent implements OnInit {
-  breadcrumbs!: Array<{label: string, url: string}>
+export class BreadcrumbComponent {
+ @Input() breadcrumbs!: Array<{label: string, url: string}>
 
-  constructor(private brundcumbService: BreadcrumbService) {
-
+  constructor() {
   }
 
-  ngOnInit(): void {
-    this.breadcrumbs = this.brundcumbService.breadcrumbs;
-  }
 
 }

@@ -36,6 +36,7 @@ import { PaginationComponent } from './components/pagination/pagination.componen
 import { ListProductsComponent } from './shared/components/list-products/list-products.component';
 import { FavoritesComponent } from './screens/favorites/favorites.component';
 import { BreadcrumbComponent } from './shared/components/breadcrumb/breadcrumb.component';
+import { ProductsCategoryComponent } from './screens/products-category/products-category.component';
 
 @NgModule({
   declarations: [
@@ -67,7 +68,8 @@ import { BreadcrumbComponent } from './shared/components/breadcrumb/breadcrumb.c
     PaginationComponent,
     ListProductsComponent,
     FavoritesComponent,
-    BreadcrumbComponent
+    BreadcrumbComponent,
+    ProductsCategoryComponent
   ],
   imports: [
     BrowserModule,

@@ -1,7 +1,13 @@
-<div class="bg-main-color py-6 sm:py-8 lg:py-12" *ngIf="product && reviews">
+<div class="bg-main-color py-6 sm:py-8" *ngIf="product && reviews">
   <div class="max-w-screen-lg px-4 md:px-8 mx-auto">
-      <app-breadcrumb></app-breadcrumb>
-      <div class="grid md:grid-cols-2 gap-8">
+      <app-breadcrumb 
+        [breadcrumbs]="[
+          {'label': 'Home', url:''},
+          {'label': product.category.name, url:''},
+          {'label': product.title, url: ''}
+        ]">
+      </app-breadcrumb>
+      <div class="grid md:grid-cols-2 gap-8 py-6 sm:py-8">
         <!-- images - start -->
         <div class="space-y-4">
           <div class="bg-white rounded-lg overflow-hidden relative border border-1 p-1">

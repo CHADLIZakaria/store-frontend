@@ -13,6 +13,7 @@ import { ReviewsComponent } from './screens/reviews/reviews.component';
 import { NotFoundComponent } from './screens/not-found/not-found.component';
 import { AdminGuard } from './guards/admin.guard';
 import { FavoritesComponent } from './screens/favorites/favorites.component';
+import { ProductsCategoryComponent } from './screens/products-category/products-category.component';
 
 const routes: Routes = [
   {
@@ -25,14 +26,16 @@ const routes: Routes = [
         component: HomeComponent, 
       },
       {
+        path: 'products-category/:categoryName',
+        component: ProductsCategoryComponent, 
+      },
+      {
         path: 'favorites',
         component: FavoritesComponent, 
-        data: { breadcrumb: 'Favorites'},
       },
       {
         component: ProductDetailsComponent, 
         path: 'product/:id',
-        data: { breadcrumb: 'Details'},
       },  
     ]
   },

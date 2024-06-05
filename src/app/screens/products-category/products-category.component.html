@@ -1,0 +1,106 @@
+<div class="container mx-auto bg-main-color px-5 py-5 h-full" *ngIf="products">
+    <app-breadcrumb 
+        [breadcrumbs]="[
+          {'label': 'Home', url:''},
+          {'label': 'cat', url:''},
+        ]">
+      </app-breadcrumb>
+    <h4 class="mb-2 font-lg">Choose your category</h4>
+    <div>
+        <div class="flex mt-3 gap-x-10">
+            <div class="bg-white px-3">
+                <div class="flex py-5 items-center justify-between ">
+                    <div class="flex items-center gap-x-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="1.5" d="M21.25 12H8.895m-4.361 0H2.75m18.5 6.607h-5.748m-4.361 0H2.75m18.5-13.214h-3.105m-4.361 0H2.75m13.214 2.18a2.18 2.18 0 1 0 0-4.36a2.18 2.18 0 0 0 0 4.36Zm-9.25 6.607a2.18 2.18 0 1 0 0-4.36a2.18 2.18 0 0 0 0 4.36Zm6.607 6.608a2.18 2.18 0 1 0 0-4.361a2.18 2.18 0 0 0 0 4.36Z"/></svg>
+                        <span class="text-lg font-semibold ">Filters</span>
+                    </div>
+                    <button 
+                        (click)="onReset()"
+                        class="border border-black text-black px-2 py-1 rounded-sm">Reset</button>
+                </div>
+                <hr class="pb-5" />
+                <div class="relative mt-2 mb-4">
+                    <input 
+                        id="keyword" 
+                        name="keyword" 
+                        type="text" 
+                        [formControl]="keyword"
+                        placeholder="Enter a keyword" 
+                        class="border border-black rounded-md px-2 shadow py-1" />
+                     <span class="absolute right-0 top-1/2 transform -translate-y-1/2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 24 24"><path fill="currentColor" d="m19.6 21l-6.3-6.3q-.75.6-1.725.95T9.5 16q-2.725 0-4.612-1.888T3 9.5t1.888-4.612T9.5 3t4.613 1.888T16 9.5q0 1.1-.35 2.075T14.7 13.3l6.3 6.3zM9.5 14q1.875 0 3.188-1.312T14 9.5t-1.312-3.187T9.5 5T6.313 6.313T5 9.5t1.313 3.188T9.5 14"/></svg>
+                    </span>
+                </div>                  
+                <app-accordion 
+                    #priceFilter
+                    filter="price"
+                    type="radio"
+                    (checked)="changeFiltre({type: $event.filter , key: $event.key, value: $event.value})"
+                    [items]="{
+                        title: 'Prices',
+                        content: pricesFilter | rangePrice: 'title', 
+                        values: pricesFilter | rangePrice: 'id', 
+                        count: pricesFilter | rangePrice: 'value'
+                        }">
+                </app-accordion>   
+                <app-accordion 
+                    #reviewFilter
+                    filter="review"
+                    type="radio"
+                    (checked)="changeFiltre({type: $event.filter , key: $event.key, value: $event.value})"
+                    [items]="{
+                        title: 'Reviews',
+                        content: reviewsFilter | reviewCount: 'title', 
+                        values: reviewsFilter | reviewCount: 'rating', 
+                        count: reviewsFilter | reviewCount: 'productCount'
+                        }">
+                </app-accordion>   
+            </div>
+            <div class="flex-1" *ngIf="products.totalElement> 0">
+                <div class="flex items-center justify-between py-3 bg-white px-2">
+                    <p> Showing
+                        <span class="font-medium">{{products.currentPage * products.sizePages + 1}}</span>
+                        -
+                        <span class="font-medium">{{(products.currentPage * products.sizePages) + products.data.length}}</span>
+                        sur
+                        <span class="font-medium">{{products.totalElement}}</span>
+                        results
+                    </p>
+                    <div class="flex items-center gap-x-1">
+                        Sort by:
+                        <select class="border border-black rounded" (change)="onSortChange($event)">
+                            <option value="0">Newest</option>
+                            <option value="1">Price: Low to High</option>
+                            <option value="2">Price: High to Low</option>
+                        </select>
+                    </div>
+                </div>
+                <hr/>
+                <app-list-products [products]="products.data"></app-list-products>                    
+                <div class="flex items-center justify-betwee bg-white px-2 py-3 space-x-2">
+                    <app-pagination
+                        [totalPages]="products.totalPages"
+                        [currentPage]="products.currentPage"
+                        (changePage)="onChangePage({type: $event.type, value: $event.value})"
+                    >
+                    </app-pagination>
+                    <div class="flex item-center gap-x-2">
+                        <span class="flex items-center">Size</span>
+                        <select 
+                            (change)="onChangePageSize($event)"                            
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-1">
+                            <option selected value="9">9</option>
+                            <option value="15">15</option>
+                            <option value="20">20</option>
+                            <option value="25">25</option>
+                        </select>
+                    </div>
+                </div>          
+            </div>
+            <div class="flex-1 w-1/2  flex flex-col items-center justify-center" *ngIf="products.totalElement===0">
+                <img class="h-[300px]" src="assets/data-not-found.svg">
+                <h4 class="text-2xl font-medium">No Data Found</h4>
+            </div>
+        </div>
+    </div>
+</div>
