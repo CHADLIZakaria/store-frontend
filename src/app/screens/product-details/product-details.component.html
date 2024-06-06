@@ -3,7 +3,7 @@
       <app-breadcrumb 
         [breadcrumbs]="[
           {'label': 'Home', url:''},
-          {'label': product.category.name, url:''},
+          {'label': product.category.name, url:'/products-category/'+product.category.name},
           {'label': product.title, url: ''}
         ]">
       </app-breadcrumb>

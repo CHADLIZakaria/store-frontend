@@ -14,9 +14,10 @@
     </div>
     <div class="flex flex-row overflow-hidden gap-x-1 mb-5">
         <div 
+            [routerLink]="['products-category', category.name]"
             *ngFor="let category of categories; index as i"       
             [ngStyle]="{transform: getTranslation()}"
-            class="grow-0 w-1/4 shrink-0 transition ease-in-out duration-500">
+            class="grow-0 w-1/4 shrink-0 transition ease-in-out duration-500 cursor-pointer">
             <img class="h-[300px] w-full" src={{category.imagePath}} />
             <h6 class="capitalize py-1">{{category.name}}</h6>
         </div>

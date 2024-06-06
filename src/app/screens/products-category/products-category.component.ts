@@ -1,11 +1,11 @@
 import { Component, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { AccordionComponent } from 'src/app/components/accordion/accordion.component';
-import { CategoryCount, RangePriceCount, ReviewCount, category } from 'src/app/models/category.model';
+import { RangePriceCount, ReviewCount } from 'src/app/models/category.model';
 import { paginationResponse } from 'src/app/models/pagination-response.model';
 import { product } from 'src/app/models/product.model';
 import { AuthService } from 'src/app/services/auth.service';
-import { CategoryService } from 'src/app/services/category.service';
 import { ProductsService } from 'src/app/services/products.service';
 
 @Component({
@@ -27,21 +27,23 @@ export class ProductsCategoryComponent {
     sort: "",
     direction: "",
     page: 0,
-    reviews: ""
+    reviews: "",
+    categoryName: "",
   }
-  @ViewChild("categoryFilter") categoryFilter!: AccordionComponent;
   @ViewChild("priceFilter") priceFilter!: AccordionComponent;
   @ViewChild("reviewFilter") reviewFilter!: AccordionComponent;
   
   keyword!: FormControl;
   username?: string;
 
-  constructor(private productsService: ProductsService, public authService: AuthService) {
+  constructor(private productsService: ProductsService, public authService: AuthService, private activatedRouter: ActivatedRoute) {
     this.keyword = new FormControl(null);
   }
 
 
   ngOnInit(): void {
+    const categoryName = this.activatedRouter.snapshot.params['categoryName']
+    this.filters.categoryName = categoryName
     this.productsService.productCountByRangePrice().subscribe(
       data => {
         this.pricesFilter = data
@@ -51,12 +53,10 @@ export class ProductsCategoryComponent {
       data => {
         this.reviewsFilter = data
       }
-    )
-    
+    )    
     if(this.authService.isAuth) {
       this.username = this.authService.userAuthValue?.username;
     }
-   
     this.keyword.valueChanges.subscribe(value => {
       this.filters.keyword = value
       this.filters.page=0
@@ -137,7 +137,6 @@ export class ProductsCategoryComponent {
   }
 
   onReset() {
-    this.categoryFilter.resetFilters()
     this.priceFilter.resetFilters()    
     this.reviewFilter.resetFilters()    
     this.filters = {
@@ -157,6 +156,4 @@ export class ProductsCategoryComponent {
     this.filters.page = 0
     this.findProducts()
   }
-
-
 }

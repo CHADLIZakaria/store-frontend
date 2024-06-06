@@ -82,6 +82,9 @@ export class ProductsService {
     if(filters.id) {
       params = params.set("id", filters.id)
     }
+    if(filters.categoryName) {
+      params = params.set("categoryName", filters.categoryName)
+    }
     if(this.authService.isAuth) {
       params = params.set("user", this.authService.userAuthValue?.username!)
     }
