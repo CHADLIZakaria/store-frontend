@@ -28,6 +28,7 @@ export class ProductDetailsComponent implements OnInit {
     direction: 'desc',
     idProduct: undefined
   };
+  products!: product[];
 
   constructor(
     private route: ActivatedRoute, 
@@ -50,6 +51,9 @@ export class ProductDetailsComponent implements OnInit {
       rating: new FormControl(1),
       description: new FormControl(null)
     })   
+    this.productsService.search({}).subscribe(data => {
+      this.products = data.data
+    })
   }
 
   loadProductDetail(id: number) {
