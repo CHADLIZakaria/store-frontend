@@ -46,13 +46,18 @@ export class ProductDetailsComponent implements OnInit {
       this.search.idProduct=id
       this.loadProductDetail(id)
       this.loadReviews()
+      
     });
     this.reviewForm = new FormGroup({
       rating: new FormControl(1),
       description: new FormControl(null)
     })   
-    this.productsService.search({}).subscribe(data => {
-      this.products = data.data
+   
+  }
+
+  loadSimilarProduct(id: number, idCategory: number) {
+    this.productsService.similarProducts(id, idCategory).subscribe(data => {
+      this.products = data
     })
   }
 
@@ -60,6 +65,7 @@ export class ProductDetailsComponent implements OnInit {
     this.productsService.search({id: id}).subscribe(data => {
       if(data.totalElement===1) {
         this.product = data.data[0]
+        this.loadSimilarProduct(id, this.product?.category.id!)
       }
       else {
         this.router.navigate(['/404'])

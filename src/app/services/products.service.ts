@@ -95,6 +95,10 @@ export class ProductsService {
     return this.http.get<product[]>(`${environment.apiUrl}products/${username}/favorites`)
   }
 
+  similarProducts(id: number, idCategory:number): Observable<product[]> {
+    return this.http.get<product[]>(`${environment.apiUrl}products/similar/${id}/${idCategory}`)
+  }
+
   productCountByRangePrice(): Observable<RangePriceCount[]> {
     return this.http.get<RangePriceCount[]>(environment.apiUrl+'products/prices/count')
   }
