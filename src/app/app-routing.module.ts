@@ -14,6 +14,7 @@ import { NotFoundComponent } from './screens/not-found/not-found.component';
 import { AdminGuard } from './guards/admin.guard';
 import { FavoritesComponent } from './screens/favorites/favorites.component';
 import { ProductsCategoryComponent } from './screens/products-category/products-category.component';
+import { CartComponent } from './screens/cart/cart.component';
 
 const routes: Routes = [
   {
@@ -36,6 +37,10 @@ const routes: Routes = [
       {
         component: ProductDetailsComponent, 
         path: 'product/:id',
+      },  
+      {
+        component: CartComponent, 
+        path: 'cart',
       },  
     ]
   },

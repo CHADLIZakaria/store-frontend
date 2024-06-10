@@ -37,6 +37,7 @@ import { ListProductsComponent } from './shared/components/list-products/list-pr
 import { FavoritesComponent } from './screens/favorites/favorites.component';
 import { BreadcrumbComponent } from './shared/components/breadcrumb/breadcrumb.component';
 import { ProductsCategoryComponent } from './screens/products-category/products-category.component';
+import { CartComponent } from './screens/cart/cart.component';
 
 @NgModule({
   declarations: [
@@ -69,7 +70,8 @@ import { ProductsCategoryComponent } from './screens/products-category/products-
     ListProductsComponent,
     FavoritesComponent,
     BreadcrumbComponent,
-    ProductsCategoryComponent
+    ProductsCategoryComponent,
+    CartComponent
   ],
   imports: [
     BrowserModule,
