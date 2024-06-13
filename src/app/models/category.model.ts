@@ -26,6 +26,7 @@ export interface Cart {
 }
 export interface CartProducts {
     id: number;
+    idProduct: number;
     title: string;
     imagePath: string;
     price: number;

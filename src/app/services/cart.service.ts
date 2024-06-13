@@ -18,4 +18,12 @@ export class CartService {
     }
     return this.http.get<Cart[]>(`${environment.apiUrl}carts/search`, {params})
   }
+
+  addQuantity(idProduct: number, idUser: number): Observable<void> {
+    return this.http.post<void>(`${environment.apiUrl}cart/add/${idProduct}`, idUser)
+  }
+  removeQuantity(idProduct: number, idUser: number): Observable<void> {
+    return this.http.post<void>(`${environment.apiUrl}cart/remove/${idProduct}`, idUser)
+  }
+
 }
