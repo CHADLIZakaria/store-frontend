@@ -8,6 +8,7 @@ import { review } from 'src/app/models/review.model';
 import { searchReview } from 'src/app/models/search.model';
 import { user } from 'src/app/models/user.model';
 import { AuthService } from 'src/app/services/auth.service';
+import { CartService } from 'src/app/services/cart.service';
 import { ProductsService } from 'src/app/services/products.service';
 import { ReviewService } from 'src/app/services/review.service';
 import { UserService } from 'src/app/services/user.service';
@@ -36,6 +37,7 @@ export class ProductDetailsComponent implements OnInit {
     private reviewService: ReviewService, 
     public authService: AuthService,
     private userService: UserService,
+    private cartService: CartService,
     private router: Router
   ) {
   }
@@ -139,6 +141,23 @@ export class ProductDetailsComponent implements OnInit {
         })
       }
     }
+  }
+
+  addQuantity(idProduct: number){
+   /*
+    this.cartService.addQuantity(idProduct, auth.idUser).subscribe(() => {
+      this.cart!.products = this.cart?.products.map(cartProduct => cartProduct.idProduct===idProduct ? {...cartProduct, quantity: cartProduct.quantity+1}: cartProduct)!
+      this.authService.cartSubject.next(this.cart)
+    })
+      */
+  }
+  removeQuantity(idProduct: number){
+    /*
+    this.cartService.removeQuantity(idProduct, this.idUser).subscribe(() => {
+      this.cart!.products = this.cart?.products.map(cartProduct => cartProduct.idProduct===idProduct ? {...cartProduct, quantity: cartProduct.quantity - 1}: cartProduct)!
+      this.authService.cartSubject.next(this.cart)
+    })
+      */
   }
 
 }

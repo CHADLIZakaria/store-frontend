@@ -5,6 +5,8 @@ import { UserAuth, UserLogin } from '../models/userLogin.model';
 import { environment } from 'src/environnments/environnment';
 import { jwtDecode } from 'jwt-decode';
 import { Router } from '@angular/router';
+import { Cart } from '../models/category.model';
+import { CartService } from './cart.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,12 +16,18 @@ export class AuthService {
   userSubject: BehaviorSubject<UserAuth | null> = new BehaviorSubject<UserAuth | null>(null);
   user: Observable<any> = this.userSubject.asObservable();
   logoutTimer!: any;
+  cartSubject: BehaviorSubject<Cart | null> = new BehaviorSubject<Cart | null>(null);
 
-  constructor(private http: HttpClient, private router: Router) {
+
+  constructor(private http: HttpClient, private cartService: CartService, private router: Router) {
   }
 
   get userAuthValue() {
     return this.userSubject.value
+  }
+
+  get cartUserValue() {
+    return this.cartSubject.value
   }
   
   public get isAuth() {
@@ -64,6 +72,9 @@ export class AuthService {
     };
     if(new Date() <= user.expirationDate) {
       this.userSubject.next(user)
+      this.cartService.searchCarts({username: user.username}).subscribe((data) => {
+        this.cartSubject.next(data[0])
+      })
     }
     this.autoLogout(user.expirationDate.getTime() - new Date().getTime())
   }

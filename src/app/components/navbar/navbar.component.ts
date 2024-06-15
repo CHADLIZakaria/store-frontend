@@ -21,7 +21,10 @@ export class NavbarComponent implements OnInit {
   isAdmin!: boolean;
   user!: any;
 
-  constructor(public authService: AuthService, private productService: ProductsService, private router: Router) {
+  constructor(
+    public authService: AuthService, 
+    private productService: ProductsService, 
+    private router: Router) {
     this.searchControl = new FormControl('')    
   }
 
@@ -63,6 +66,10 @@ export class NavbarComponent implements OnInit {
     if(value===2) {
       this.authService.logout()
     }
+  }
+
+  getItemsLength() {
+    return this.authService.cartUserValue?.products.reduce((sum, product) => sum + product.quantity, 0)
   }
 
 }

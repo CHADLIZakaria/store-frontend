@@ -24,26 +24,22 @@ export class CartComponent implements OnInit {
     this.userService.findByUsername(this.authService.userAuthValue?.username!).subscribe((data) => {
       this.idUser = data.id
     })
-    this.cartService.searchCarts({username: this.authService.userAuthValue?.username}).subscribe(
-      (data) => {
-        if(data.length==0) {
-          this.cart = null
-        }
-        else {
-          this.cart = data[0]
-        }
-      } 
-    )
+    this.authService.cartSubject.subscribe((cart) => {
+      this.cart = cart;
+    })
+    
   }
 
   addQuantity(idProduct: number){
     this.cartService.addQuantity(idProduct, this.idUser).subscribe(() => {
       this.cart!.products = this.cart?.products.map(cartProduct => cartProduct.idProduct===idProduct ? {...cartProduct, quantity: cartProduct.quantity+1}: cartProduct)!
+      this.authService.cartSubject.next(this.cart)
     })
   }
   removeQuantity(idProduct: number){
     this.cartService.removeQuantity(idProduct, this.idUser).subscribe(() => {
       this.cart!.products = this.cart?.products.map(cartProduct => cartProduct.idProduct===idProduct ? {...cartProduct, quantity: cartProduct.quantity - 1}: cartProduct)!
+      this.authService.cartSubject.next(this.cart)
     })
   }
 

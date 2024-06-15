@@ -35,7 +35,7 @@
                         </div>
                     </div>                  
                     <div class="flex items-center justify-center h-full">
-                        <p class="font-bold text-lg leading-8 text-gray-600 text-center transition-all duration-300 group-hover:text-indigo-600">${{product.price}}</p>
+                        <p class="font-bold text-lg leading-8 text-gray-600 text-center transition-all duration-300 group-hover:text-indigo-600">{{product.price}} $</p>
                     </div>
                     <div class="flex items-center max-[500px]:justify-center h-full max-md:mt-3">
                         <div class="flex items-center h-full">
@@ -100,13 +100,13 @@
                             <img [src]="product.imagePath" alt="perfume bottle image" class="w-full mb-2 px-2">
                         </div>
                         <p class="flex-1 text-left text-sm">{{product.title}}</p>
-                        <p class="flex-1 text-center text-sm">{{product.price}}$</p>
+                        <p class="flex-1 text-center text-sm">{{product.price}} $</p>
                         <p class="flex-1 text-center text-sm"> x {{product.quantity}}</p>
-                        <p class="flex-1 text-center text-sm">{{product.quantity * product.price | number :'1.2-2'}}$</p>
+                        <p class="flex-1 text-center text-sm">{{product.quantity * product.price | number :'1.2-2'}} $</p>
                       </div> 
                     </div>
                     <div class="flex items-center justify-end py-8">
-                        <p class="font-semibold text-xl leading-8 text-indigo-600">${{getTotalPrice() | number :'1.2-2' }}</p>
+                        <p class="font-semibold text-xl leading-8 text-indigo-600">{{getTotalPrice() | number :'1.2-2'}} $</p>
                     </div>
                 </form>
             </div>
