@@ -35,7 +35,9 @@
                 <a routerLink="/signup" class="bg-gray-700 hover:bg-gray-800 text-gray-100 px-2 py-1 rounded-lg shadow-lg font-semibold">Sign Up</a>
             </div>
             <div  *ngIf="isLogin" class="flex items-center gap-x-2">
-                <button type="button" class="border border-gray-200 relative inline-flex items-center px-3 py-2 shadow-md text-sm font-medium text-center text-gray-700 rounded-md focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                <button 
+                    [routerLink]="['cart']"
+                    type="button" class="border border-gray-200 relative inline-flex items-center px-3 py-2 shadow-md text-sm font-medium text-center text-gray-700 rounded-md focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                     <svg 
                         class="w-5 h-5" 
                         xmlns="http://www.w3.org/2000/svg"

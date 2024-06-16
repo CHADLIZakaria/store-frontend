@@ -33,9 +33,9 @@ export class ProductDetailsComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute, 
+    public authService: AuthService,
     private productsService: ProductsService, 
     private reviewService: ReviewService, 
-    public authService: AuthService,
     private userService: UserService,
     private cartService: CartService,
     private router: Router
@@ -143,21 +143,24 @@ export class ProductDetailsComponent implements OnInit {
     }
   }
 
-  addQuantity(idProduct: number){
-   /*
-    this.cartService.addQuantity(idProduct, auth.idUser).subscribe(() => {
-      this.cart!.products = this.cart?.products.map(cartProduct => cartProduct.idProduct===idProduct ? {...cartProduct, quantity: cartProduct.quantity+1}: cartProduct)!
-      this.authService.cartSubject.next(this.cart)
+  addQuantity(){
+    this.cartService.addQuantity(this.product!.id, this.authService.userAuthValue?.username!).subscribe(() => {
+      this.authService.cartUserValue!.products = this.authService.cartUserValue!.products.map(cartProduct => cartProduct.idProduct===this.product?.id ? {...cartProduct, quantity: cartProduct.quantity+1}: cartProduct)!
+      this.authService.cartSubject.next(this.authService.cartUserValue)
     })
-      */
   }
-  removeQuantity(idProduct: number){
-    /*
-    this.cartService.removeQuantity(idProduct, this.idUser).subscribe(() => {
-      this.cart!.products = this.cart?.products.map(cartProduct => cartProduct.idProduct===idProduct ? {...cartProduct, quantity: cartProduct.quantity - 1}: cartProduct)!
-      this.authService.cartSubject.next(this.cart)
+  removeQuantity(){
+    this.cartService.removeQuantity(this.product!.id, this.authService.userAuthValue?.username!).subscribe(() => {
+      this.authService.cartUserValue!.products = this.authService.cartUserValue!.products.map(cartProduct => cartProduct.idProduct===this.product?.id ? {...cartProduct, quantity: cartProduct.quantity - 1}: cartProduct)!
+      this.authService.cartSubject.next(this.authService.cartUserValue)
     })
-      */
   }
+
+  getQuantity():number {
+    const cartProducts = this.authService.cartUserValue?.products.filter(cartProduct => cartProduct.idProduct === this.product?.id)
+    if(cartProducts?.length===0 || cartProducts==null) return 1
+    else return cartProducts![0].quantity;
+  }
+
 
 }

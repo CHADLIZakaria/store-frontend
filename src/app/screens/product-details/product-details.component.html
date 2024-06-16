@@ -32,46 +32,82 @@
             <!-- description - end -->
           </div>
           <!-- price - start -->
-          <div class="">
+          <div>
             <div class="flex items-end flex-col  justify-between gap-y-5">
               <span class="text-gray-800 text-xl md:text-2xl font-bold">{{product.price}} $</span>               
               <div class="flex gap-x-1 w-full">
-                <button class="bg-gray-700 flex items-center gap-x-2 rounded-md font-bold px-4 py-2 text-white flex-1 justify-center ">
-                  Add To Cart
-                   <svg xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" viewBox="0 0 24 24">
-                    <g fill="none" stroke="currentColor" stroke-width="1.5">
-                      <path stroke-linecap="round" d="M3.864 16.455c.546 2.183.819 3.274 1.632 3.91C6.31 21 7.435 21 9.685 21h4.63c2.25 0 3.375 0 4.19-.635c.813-.636 1.086-1.727 1.631-3.91c.858-3.432 1.287-5.147.387-6.301C19.622 9 17.853 9 14.316 9H9.685c-3.538 0-5.306 0-6.207 1.154c-.529.677-.6 1.548-.394 2.846" />
-                      <path d="m19.5 9.5l-.71-2.605c-.274-1.005-.411-1.507-.692-1.886A2.5 2.5 0 0 0 17 4.172C16.56 4 16.04 4 15 4M4.5 9.5l.71-2.605c.274-1.005.411-1.507.692-1.886A2.5 2.5 0 0 1 7 4.172C7.44 4 7.96 4 9 4" />
-                      <path d="M9 4a1 1 0 0 1 1-1h4a1 1 0 1 1 0 2h-4a1 1 0 0 1-1-1Z" />
-                    </g>
-                  </svg>
-                </button>
-                <button 
-                  [ngClass]="{'cursor-pointer': authService.isAuth}" 
-                  (click)="toggleFavorite('add', product.id)" 
-                  *ngIf="!product.inFavorites"
-                  class="text-gray-700 font-bold px-4 py-2 text-gray-700 rounded-md border border-gray-700">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg" 
-                    width="25px" 
-                    height="25px" 
-                    viewBox="0 0 24 24">
-                    <path fill="currentColor" d="m12.1 18.55l-.1.1l-.11-.1C7.14 14.24 4 11.39 4 8.5C4 6.5 5.5 5 7.5 5c1.54 0 3.04 1 3.57 2.36h1.86C13.46 6 14.96 5 16.5 5c2 0 3.5 1.5 3.5 3.5c0 2.89-3.14 5.74-7.9 10.05M16.5 3c-1.74 0-3.41.81-4.5 2.08C10.91 3.81 9.24 3 7.5 3C4.42 3 2 5.41 2 8.5c0 3.77 3.4 6.86 8.55 11.53L12 21.35l1.45-1.32C18.6 15.36 22 12.27 22 8.5C22 5.41 19.58 3 16.5 3"/>
-                  </svg>
-                </button>
-                <button 
-                  [ngClass]="{'cursor-pointer': authService.isAuth}" 
-                  (click)="toggleFavorite('remove', product.id)" 
-                  *ngIf="product.inFavorites"
-                  class="text-gray-700 font-bold px-4 py-2 text-gray-700 rounded-md border border-gray-700">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg" 
-                    width="25px" 
-                    height="25px" 
-                    viewBox="0 0 24 24">
-                    <path fill="currentColor" d="m12 21.35l-1.45-1.32C5.4 15.36 2 12.27 2 8.5C2 5.41 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.08C13.09 3.81 14.76 3 16.5 3C19.58 3 22 5.41 22 8.5c0 3.77-3.4 6.86-8.55 11.53z"/>
-                  </svg>
-                </button>
+                <div class="flex flex-col items-center h-full">
+                  <button
+                    class="group rounded-t-md p-1 border border-gray-200 flex items-center justify-center shadow-sm shadow-transparent transition-all duration-500 bg-gray-50 border-gray-300 hover:shadow-gray-300 focus-within:outline-gray-300">
+                    <svg class="stroke-gray-900 transition-all duration-500 group-hover:stroke-black"
+                        xmlns="http://www.w3.org/2000/svg" width="22" height="22"
+                        viewBox="0 0 22 22" fill="none">
+                        <path d="M11 5.5V16.5M16.5 11H5.5" stroke="" stroke-width="1.6"
+                            stroke-linecap="round" />
+                        <path d="M11 5.5V16.5M16.5 11H5.5" stroke="" stroke-opacity="0.2"
+                            stroke-width="1.6" stroke-linecap="round" />
+                        <path d="M11 5.5V16.5M16.5 11H5.5" stroke="" stroke-opacity="0.2"
+                            stroke-width="1.6" stroke-linecap="round" />
+                    </svg>
+                  </button>
+                  <button
+                    class="group rounded-b-md p-1 border border-t-0 border-gray-200 flex items-center justify-center shadow-sm shadow-transparent transition-all duration-500 bg-gray-50 border-gray-300 hover:shadow-gray-300 focus-within:outline-gray-300">
+                    <svg class="stroke-gray-900 transition-all duration-500 group-hover:stroke-black"
+                      xmlns="http://www.w3.org/2000/svg" width="22" height="22"
+                      viewBox="0 0 22 22" fill="none">
+                      <path d="M16.5 11H5.5" stroke="" stroke-width="1.6"
+                          stroke-linecap="round" />
+                      <path d="M16.5 11H5.5" stroke="" stroke-opacity="0.2" stroke-width="1.6"
+                          stroke-linecap="round" />
+                      <path d="M16.5 11H5.5" stroke="" stroke-opacity="0.2" stroke-width="1.6"
+                          stroke-linecap="round" />
+                    </svg>
+                  </button>
+                </div>
+              <input 
+                type="text"
+                class="border border-gray-700 rounded-md outline-none text-gray-900 font-semibold text-lg w-full max-w-[73px] min-w-[60px] placeholder:text-gray-900 py-[15px]  text-center bg-transparent"
+                [placeholder]="getQuantity()">                 
+              <button 
+                (click)="addQuantity()"
+                class="bg-gray-700 flex items-center gap-x-2 rounded-md font-bold px-4 py-2 text-white flex-1 justify-center ">
+                Add To Cart
+                  <svg xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" viewBox="0 0 24 24">
+                  <g fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path stroke-linecap="round" d="M3.864 16.455c.546 2.183.819 3.274 1.632 3.91C6.31 21 7.435 21 9.685 21h4.63c2.25 0 3.375 0 4.19-.635c.813-.636 1.086-1.727 1.631-3.91c.858-3.432 1.287-5.147.387-6.301C19.622 9 17.853 9 14.316 9H9.685c-3.538 0-5.306 0-6.207 1.154c-.529.677-.6 1.548-.394 2.846" />
+                    <path d="m19.5 9.5l-.71-2.605c-.274-1.005-.411-1.507-.692-1.886A2.5 2.5 0 0 0 17 4.172C16.56 4 16.04 4 15 4M4.5 9.5l.71-2.605c.274-1.005.411-1.507.692-1.886A2.5 2.5 0 0 1 7 4.172C7.44 4 7.96 4 9 4" />
+                    <path d="M9 4a1 1 0 0 1 1-1h4a1 1 0 1 1 0 2h-4a1 1 0 0 1-1-1Z" />
+                  </g>
+                </svg>
+              </button>
+              <!-- Button Add favorite -->
+              <button 
+                [ngClass]="{'cursor-pointer': authService.isAuth}" 
+                (click)="toggleFavorite('add', product.id)" 
+                *ngIf="!product.inFavorites"
+                class="text-gray-700 font-bold px-4 py-2 text-gray-700 rounded-md border border-gray-700">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg" 
+                  width="25px" 
+                  height="25px" 
+                  viewBox="0 0 24 24">
+                  <path fill="currentColor" d="m12.1 18.55l-.1.1l-.11-.1C7.14 14.24 4 11.39 4 8.5C4 6.5 5.5 5 7.5 5c1.54 0 3.04 1 3.57 2.36h1.86C13.46 6 14.96 5 16.5 5c2 0 3.5 1.5 3.5 3.5c0 2.89-3.14 5.74-7.9 10.05M16.5 3c-1.74 0-3.41.81-4.5 2.08C10.91 3.81 9.24 3 7.5 3C4.42 3 2 5.41 2 8.5c0 3.77 3.4 6.86 8.55 11.53L12 21.35l1.45-1.32C18.6 15.36 22 12.27 22 8.5C22 5.41 19.58 3 16.5 3"/>
+                </svg>
+              </button>
+              <!-- Button Add remove favorite -->
+              <button 
+                [ngClass]="{'cursor-pointer': authService.isAuth}" 
+                (click)="toggleFavorite('remove', product.id)" 
+                *ngIf="product.inFavorites"
+                class="text-gray-700 font-bold px-4 py-2 text-gray-700 rounded-md border border-gray-700">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg" 
+                  width="25px" 
+                  height="25px" 
+                  viewBox="0 0 24 24">
+                  <path fill="currentColor" d="m12 21.35l-1.45-1.32C5.4 15.36 2 12.27 2 8.5C2 5.41 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.08C13.09 3.81 14.76 3 16.5 3C19.58 3 22 5.41 22 8.5c0 3.77-3.4 6.86-8.55 11.53z"/>
+                </svg>
+              </button>
               </div>
             </div>
           </div>

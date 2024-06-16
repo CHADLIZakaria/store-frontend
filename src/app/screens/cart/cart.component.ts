@@ -16,28 +16,23 @@ export class CartComponent implements OnInit {
   constructor(
     private cartService: CartService, 
     private authService: AuthService,
-    private userService: UserService
   ) {
   }
 
   ngOnInit(): void {
-    this.userService.findByUsername(this.authService.userAuthValue?.username!).subscribe((data) => {
-      this.idUser = data.id
-    })
     this.authService.cartSubject.subscribe((cart) => {
       this.cart = cart;
     })
-    
   }
 
   addQuantity(idProduct: number){
-    this.cartService.addQuantity(idProduct, this.idUser).subscribe(() => {
+    this.cartService.addQuantity(idProduct, this.authService.userAuthValue?.username!).subscribe(() => {
       this.cart!.products = this.cart?.products.map(cartProduct => cartProduct.idProduct===idProduct ? {...cartProduct, quantity: cartProduct.quantity+1}: cartProduct)!
       this.authService.cartSubject.next(this.cart)
     })
   }
   removeQuantity(idProduct: number){
-    this.cartService.removeQuantity(idProduct, this.idUser).subscribe(() => {
+    this.cartService.removeQuantity(idProduct, this.authService.userAuthValue?.username!).subscribe(() => {
       this.cart!.products = this.cart?.products.map(cartProduct => cartProduct.idProduct===idProduct ? {...cartProduct, quantity: cartProduct.quantity - 1}: cartProduct)!
       this.authService.cartSubject.next(this.cart)
     })
